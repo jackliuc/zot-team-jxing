@@ -6,6 +6,7 @@ package com.zot.wechat.handle;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zot.util.view.engine.yb.SubscribeService;
 import com.zot.wechat.msg.ArticlesWechatMsg;
 import com.zot.wechat.msg.Constant;
 import com.zot.wechat.msg.EventWechatMsg;
@@ -63,20 +64,50 @@ public class EventHandleAS implements WechatHandle {
 	public List<ArticlesWechatMsg> getYueBa(String key)
 	{
 		List<ArticlesWechatMsg> lr = new ArrayList<ArticlesWechatMsg>();
-		
+		String desc = "服务类型：";
+		switch (key) {
+		case "10001":
+			desc += "洗车";
+			break;
+		case "10002":
+			desc += "做漆";		
+			break;
+		case "10003":
+			desc += "钣金";
+			break;
+		case "10004":
+			desc += "装潢";
+			break;
+
+		default:
+			break;
+		}
+		desc+="  ";
+		desc+="最快服务时间：";
+		String time = SubscribeService.computeServiceTime(key);
+		desc+=time;
 		//当前正在服务的数量
 		ArticlesWechatMsg msg = new ArticlesWechatMsg();
-		msg.setTitle("预约结果：");
-		msg.setDescription("点击推荐时间段自动确认该时间段，或者通过自助链接选择适合自己的时间。");
-		msg.setUrl(Constant.SERVER_URL+"yueba/yuemakesure.jsp");
+		msg.setTitle("");
+		msg.setDescription("简行快修，让汽车出行简单体面！");
+		msg.setPicUrl(Constant.SERVER_URL+"assets/image/webcome3-s.png");
+		msg.setUrl(Constant.SERVER_URL+"index.jsp");
 		lr.add(msg);
 		
+		ArticlesWechatMsg subscribeURL = new ArticlesWechatMsg();
+		subscribeURL.setTitle("请点击系统推荐结果");
+		subscribeURL.setDescription(desc);
+		subscribeURL.setUrl(Constant.SERVER_URL+"subscribe/subscribesure.jsp?subtype="+key);
+		lr.add(subscribeURL);
+		
 		ArticlesWechatMsg selfURL = new ArticlesWechatMsg();
-		selfURL.setTitle("自助选择服务时间：");
-		selfURL.setDescription("通过自助链接选择适合自己的时间。");
-		selfURL.setUrl(Constant.SERVER_URL+"yueba/selfchoose.jsp");
+		selfURL.setTitle("自助选择");
+		selfURL.setDescription("可以通过简行快修自助选择页面选择心仪时间");
+		selfURL.setUrl(Constant.SERVER_URL+"subscribe/self-subscribe.jsp?subtype="+key);
 		lr.add(selfURL);
 		
 		return lr;
 	}
+	
+	
 }
