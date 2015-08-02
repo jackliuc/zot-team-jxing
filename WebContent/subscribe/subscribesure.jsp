@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <html class="no-js">
 <%@include file="/assets/header.jsp"%>
-<%@ page import="com.zot.util.view.engine.yb.SubscribeResultServiceImpl" %>
+
 <%
 
 %>
