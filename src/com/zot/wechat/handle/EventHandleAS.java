@@ -88,20 +88,20 @@ public class EventHandleAS implements WechatHandle {
 		desc+=time;
 		//当前正在服务的数量
 		ArticlesWechatMsg msg = new ArticlesWechatMsg();
-		msg.setTitle("");
+		msg.setTitle("简行快修，让汽车出行简单体面");
 		msg.setDescription("简行快修，让汽车出行简单体面！");
 		msg.setPicUrl(Constant.SERVER_URL+"assets/image/webcome3-s.png");
 		msg.setUrl(Constant.SERVER_URL+"index.jsp");
 		lr.add(msg);
 		
 		ArticlesWechatMsg subscribeURL = new ArticlesWechatMsg();
-		subscribeURL.setTitle("请点击系统推荐结果");
+		subscribeURL.setTitle("请点击确认系统推荐结果:"+desc);
 		subscribeURL.setDescription(desc);
 		subscribeURL.setUrl(Constant.SERVER_URL+"subscribe/subscribesure.jsp?subtype="+key);
 		lr.add(subscribeURL);
 		
 		ArticlesWechatMsg selfURL = new ArticlesWechatMsg();
-		selfURL.setTitle("自助选择");
+		selfURL.setTitle("可以通过简行快修自助选择页面选择心仪时间");
 		selfURL.setDescription("可以通过简行快修自助选择页面选择心仪时间");
 		selfURL.setUrl(Constant.SERVER_URL+"subscribe/self-subscribe.jsp?subtype="+key);
 		lr.add(selfURL);
