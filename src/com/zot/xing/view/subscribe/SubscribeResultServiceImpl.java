@@ -1,9 +1,9 @@
 /**
  * 
  */
-package com.zot.util.view.engine.yb;
+package com.zot.xing.view.subscribe;
 
-import com.zot.util.view.engine.PrefixService;
+import com.zot.view.contorler.PrefixService;
 
 /**
  * @author jack

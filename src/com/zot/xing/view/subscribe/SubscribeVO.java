@@ -1,4 +1,4 @@
-package com.zot.util.view.engine.yb;
+package com.zot.xing.view.subscribe;
 
 public class SubscribeVO {
 	/**

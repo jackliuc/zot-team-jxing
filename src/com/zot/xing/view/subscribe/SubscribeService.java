@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.zot.util.view.engine.yb;
+package com.zot.xing.view.subscribe;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

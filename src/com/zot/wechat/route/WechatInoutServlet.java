@@ -61,9 +61,6 @@ public class WechatInoutServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		super.init();
 
-		// 初始化日志系统
-		PropertyConfigurator.configure(Thread.currentThread().getContextClassLoader().getResource("log4j.properties"));
-
 		logger = Logger.getLogger(WechatInoutServlet.class);
 
 		// 初始化加解密系统
