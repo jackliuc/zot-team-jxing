@@ -13,6 +13,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/postgresql-9.4-1201.jdbc4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/US_export_policy.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xstream-1.3.1.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/servlet-api.jar"/>
-	<classpathentry kind="output" path="WebContent/WEB-INF/class"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat-7.0.52/lib/servlet-api.jar"/>
+	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>
