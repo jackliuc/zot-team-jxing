@@ -8,13 +8,11 @@ package com.zot.util;
  *
  */
 public class ZOTException extends RuntimeException {
- public ZOTException()
- {
-	 
- }
- 
- public ZOTException(Throwable e)
- {
-	 
- }
+	public ZOTException() {
+
+	}
+
+	public ZOTException(Throwable e) {
+
+	}
 }
