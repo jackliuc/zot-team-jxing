@@ -13,7 +13,7 @@ import java.util.List;
  * @author jack
  *
  */
-public class JDBCTemplate {
+public class JDBCTemplate<T> {
 
 	/**
 	 * 执行查询语句，返回的值通过ResultSetHandler处理
@@ -23,7 +23,8 @@ public class JDBCTemplate {
 	 * @param rsh
 	 * @return
 	 */
-	public void query(String sql, List<Object> params, ResultSetHandler<Object> rsh) {
+	public List<T> query(String sql, List<Object> params, ResultSetHandler<T> rsh) {
+		List<T> lst = null;		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -32,11 +33,11 @@ public class JDBCTemplate {
 			pstmt = conn.prepareStatement(sql);
 			int idx = 0;
 			for (Object object : params) {
-				pstmt.setObject(idx++, object);
+				pstmt.setObject(++idx, object);
 			}
 			rs = pstmt.executeQuery();
 			
-			rsh.rsHandler(rs);
+			lst = rsh.rsHandler(rs);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -58,6 +59,8 @@ public class JDBCTemplate {
 
 			}
 		}
+		
+		return lst;
 	}
 
 	public int execute(String sql, List<Object> params) {
@@ -89,5 +92,4 @@ public class JDBCTemplate {
 
 		return -1;
 	}
-
 }
