@@ -6,11 +6,15 @@ package com.zot.wechat.handle;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zot.util.DateAS;
 import com.zot.wechat.msg.ArticlesWechatMsg;
 import com.zot.wechat.msg.Constant;
 import com.zot.wechat.msg.EventWechatMsg;
 import com.zot.wechat.msg.WechatMsg;
 import com.zot.wechat.util.ResMsgGen;
+import com.zot.xing.dao.wechat.WechatCustomer;
+import com.zot.xing.dao.wechat.WechatCustomerAS;
+import com.zot.xing.dao.wechat.WechatCustomerASImpl;
 import com.zot.xing.view.subscribe.SubscribeService;
 
 /**
@@ -37,10 +41,16 @@ public class EventHandleAS implements WechatHandle {
 			rStr = gen.genNews(eMsg, content);
 			break;
 		case "subscribe":
+			WechatCustomer customer = new WechatCustomer();
+			customer.setWechatName(msg.getFromUserName());
+			customer.setSubTime(DateAS.getCurrentDate());
 			
+			WechatCustomerAS weChat = new WechatCustomerASImpl();
+			weChat.addWechatCustomer(customer);
 			break;
 		case "unsubscribe":
-			
+			WechatCustomerAS calweChat = new WechatCustomerASImpl();
+			calweChat.updateCalSubCustomer(msg.getFromUserName());
 			break;
 
 		default:
@@ -56,8 +66,8 @@ public class EventHandleAS implements WechatHandle {
 	 * 洗车：10001
 	 * 做漆：10002
 	 * 钣金：10003
-	 * 装潢：10004
-	 * 其他：10005
+	 * 装潢：10006
+	 * 其他：10007
 	 * @param key
 	 * @return
 	 */
@@ -75,7 +85,7 @@ public class EventHandleAS implements WechatHandle {
 		case "10003":
 			desc += "钣金";
 			break;
-		case "10004":
+		case "10006":
 			desc += "装潢";
 			break;
 

@@ -4,12 +4,12 @@
 package com.zot.db;
 
 import java.sql.ResultSet;
-import java.util.List;
+import java.sql.SQLException;
 
 /**
  * @author jack
  *
  */
 public abstract class ResultSetHandler<T> {
-	public abstract List<T> rsHandler(ResultSet rs);
+	public abstract T rsHandler(ResultSet rs) throws SQLException;
 }

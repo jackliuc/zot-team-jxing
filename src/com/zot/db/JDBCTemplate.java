@@ -13,7 +13,7 @@ import java.util.List;
  * @author jack
  *
  */
-public class JDBCTemplate {
+public class JDBCTemplate<T> {
 
 	/**
 	 * 执行查询语句，返回的值通过ResultSetHandler处理
@@ -23,20 +23,24 @@ public class JDBCTemplate {
 	 * @param rsh
 	 * @return
 	 */
-	public void query(String sql, List<Object> params, ResultSetHandler<Object> rsh) {
+	public T query(String sql, List<Object> params, ResultSetHandler<T> rsh) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			conn = DBDataSource.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			int idx = 0;
-			for (Object object : params) {
-				pstmt.setObject(idx++, object);
+			if(params != null)
+			{
+				int idx = 0;
+				for (Object object : params) {
+					pstmt.setObject(++idx, object);
+				}
 			}
+			
 			rs = pstmt.executeQuery();
 			
-			rsh.rsHandler(rs);
+			return rsh.rsHandler(rs);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -58,6 +62,8 @@ public class JDBCTemplate {
 
 			}
 		}
+		
+		return null;
 	}
 
 	public int execute(String sql, List<Object> params) {
@@ -66,14 +72,16 @@ public class JDBCTemplate {
 		try {
 			conn = DBDataSource.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			int idx = 0;
-			for (Object object : params) {
-				pstmt.setObject(idx++, object);
+			if(params != null)
+			{
+				int idx = 0;
+				for (Object object : params) {
+					pstmt.setObject(++idx, object);
+				}
 			}
-
-			return pstmt.executeUpdate();
+		    return pstmt.executeUpdate();
 		} catch (SQLException e) {
-
+			e.printStackTrace();
 		} finally {
 			try {
 				if (pstmt != null) {
