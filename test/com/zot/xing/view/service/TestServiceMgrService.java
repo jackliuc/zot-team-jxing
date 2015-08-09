@@ -1,19 +1,25 @@
 package com.zot.xing.view.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.zot.xing.view.common.IdVO;
+import com.alibaba.fastjson.JSON;
 
 import junit.framework.TestCase;
-import net.sf.json.JSONArray;
 
 public class TestServiceMgrService extends TestCase{
 	public void testQueryServices()
 	{
-		List<ServiceVO> services = ServiceMgrService.queryServices(new IdVO());
+		//List<ServiceVO> services = ServiceMgrService.queryServices(new IdVO());
+		List<ServiceVO> services = new ArrayList<ServiceVO>();
 		
-		JSONArray array = JSONArray.fromObject(services);
-	    String jsonstr = array.toString();
+		ServiceVO vo = new ServiceVO();
+		vo.setCarNo("101");
+		vo.setServiceId("good");
+		services.add(vo);
 		
+		String jsonstr = JSON.toJSONString(services);
+		
+	    System.out.println(jsonstr);
 	}
 }

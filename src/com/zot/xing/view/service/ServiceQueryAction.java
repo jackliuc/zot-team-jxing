@@ -2,10 +2,9 @@ package com.zot.xing.view.service;
 
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
 import com.zot.view.contorler.PrefixService;
 import com.zot.xing.view.common.IdVO;
-
-import net.sf.json.JSONArray;
 
 public class ServiceQueryAction extends PrefixService{
 	@Override
@@ -19,8 +18,7 @@ public class ServiceQueryAction extends PrefixService{
 		
 		List<ServiceVO> services = ServiceMgrService.queryServices(id);
 		
-		JSONArray array = JSONArray.fromObject(services);
-	    String jsonstr = array.toString();
+		String jsonstr = JSON.toJSONString(services);
 		
 		return jsonstr;
 	}
