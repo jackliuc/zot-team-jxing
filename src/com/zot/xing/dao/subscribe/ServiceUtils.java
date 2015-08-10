@@ -56,7 +56,7 @@ public class ServiceUtils {
 	{
 		final Map<String,ServiceBO> tmpService = new HashMap<String,ServiceBO>();
 		String sql = "SELECT service_id, service_name, service_des, cost_time, current_cnt  FROM t_zot_service";
-		JDBCTemplate jdbcTmp = new JDBCTemplate();
+		JDBCTemplate<Object> jdbcTmp = new JDBCTemplate<Object>();
 		jdbcTmp.query(sql, null, new ResultSetHandler<Object>(){
 
 			@Override
@@ -64,7 +64,7 @@ public class ServiceUtils {
 				while(rs.next())
 				{
 					ServiceBO bo = new ServiceBO();
-					String serviceID = rs.getString("serivce_id");
+					String serviceID = rs.getString("service_id");
 					bo.setService_id(serviceID);
 					bo.setService_des(rs.getString("service_des"));
 					bo.setService_name(rs.getString("service_name"));
