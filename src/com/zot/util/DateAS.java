@@ -17,8 +17,21 @@ public class DateAS {
 		return Calendar.getInstance().getTime();
 	}
 	
+	/**
+	 * yyyy-MM-dd
+	 * @return
+	 */
     public static java.sql.Date getCurrentSQLDate()
     {
     	return new java.sql.Date(DateAS.getCurrentDate().getTime());
+    }
+    
+    /**
+     * yyyy-MM-dd Hi24:mm:ss.SSS
+     * @return
+     */
+    public static java.sql.Timestamp getCurrentSQLTimestamp()
+    {
+    	return new java.sql.Timestamp(getCurrentDate().getTime());
     }
 }
