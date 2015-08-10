@@ -24,20 +24,21 @@ public class WechatCustomerASImpl implements WechatCustomerAS{
 		params.add(customer.getWechatNO());
 		params.add(customer.getWechatName());
 		params.add(customer.getPhoneNo());
-		params.add(DateAS.getCurrentSQLDate());
+		params.add(DateAS.getCurrentSQLTimestamp());
 		params.add(null);
 		sqlTemplate.execute(addSql, params);
 	}
 
-	private String updateSql = "update t_zot_xing_wechatsub set calSubtime = ? where wechatNO = ";
+	private String updateSql = "update t_zot_xing_wechatsub set calsubtime = ? where wechatno = ?";
 	@Override
 	public void updateCalSubCustomer(String wechatNo) {
 	
-		updateSql += wechatNo;
+//		updateSql += wechatNo;
 		
 		JDBCTemplate sqlTemplate = new JDBCTemplate();
 		List<Object> params = new ArrayList<Object>();
-		params.add(DateAS.getCurrentSQLDate());
+		params.add(DateAS.getCurrentSQLTimestamp());
+		params.add(wechatNo);
 		sqlTemplate.execute(updateSql, params);
 	}
 	
