@@ -4,7 +4,7 @@ public class SubscribeVO {
 	/**
 	 * 价格
 	 */
-	private String price = null;
+	private Long price = null;
 	
 	/**
 	 * 预约时间
@@ -19,11 +19,11 @@ public class SubscribeVO {
 	
 	private String subType = null;
 
-	public String getPrice() {
+	public Long getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(Long price) {
 		this.price = price;
 	}
 
