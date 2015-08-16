@@ -16,7 +16,7 @@ public class ServiceQueryAction extends PrefixService{
 		id.setIdType(1);
 		id.setId("101");
 		
-		List<ServiceVO> services = ServiceMgrService.queryServices(id);
+		List<XingWorkOrderVO> services = ServiceMgrService.queryServices(id);
 		
 		String jsonstr = JSON.toJSONString(services);
 		
