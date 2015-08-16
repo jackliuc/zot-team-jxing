@@ -85,7 +85,7 @@ public class SystemInit {
 			lock.lock();
 			if (sys_config == null) {
 				Properties prop = new Properties();
-				InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("sysconfig.properties");
+				InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("conf/sysconfig.properties");
 				try {
 					prop.load(in);
 				} catch (IOException e) {
@@ -117,7 +117,7 @@ public class SystemInit {
 			lock.lock();
 			if (app_service_config == null) {
 				Properties prop = new Properties();
-				InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("zot-application.properties");
+				InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("conf/zot-application.properties");
 				try {
 					prop.load(in);
 				} catch (IOException e) {
