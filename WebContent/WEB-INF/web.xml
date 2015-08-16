@@ -35,4 +35,15 @@
   	 <url-pattern>/wechat/*</url-pattern>
   </servlet-mapping>
   
+    <servlet>
+       <servlet-name>com.zot.view.contorler.AjaxContorler</servlet-name>
+       <servlet-class>com.zot.view.contorler.AjaxContorler</servlet-class>
+   </servlet>
+   
+  <servlet-mapping>
+ 	 <servlet-name>com.zot.view.contorler.AjaxContorler</servlet-name>
+  	 <url-pattern>/busdata/*</url-pattern>
+  </servlet-mapping>
+  
+  
 </web-app>
