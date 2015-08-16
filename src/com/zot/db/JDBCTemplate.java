@@ -77,7 +77,7 @@ public class JDBCTemplate<T> {
 				int idx = 0;
 				for (Object object : params) {
 					pstmt.setObject(++idx, object);
-				}
+				} 
 			}
 		    return pstmt.executeUpdate();
 		} catch (SQLException e) {

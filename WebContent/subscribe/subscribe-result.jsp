@@ -2,7 +2,7 @@
 <html class="no-js">
 <%@include file="/assets/header.jsp" %>
 <body>
-  <div class="admin-content">
+  <div class="admin-content"> 
    <%@include file="/assets/statistic.jsp"%>
 	<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
 	 <div id="tab2">

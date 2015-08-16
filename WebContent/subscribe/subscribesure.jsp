@@ -5,7 +5,7 @@
 <%@ page import="com.zot.xing.view.subscribe.SubscribeResultServiceImpl" %>
 <%@ page import="com.zot.view.contorler.PrefixService" %>
 <body>
-
+ 
 	<div class="admin-content">
 
 	<%@include file="/assets/statistic.jsp"%>

@@ -79,7 +79,7 @@ public class SystemInit {
 	 * 
 	 * @param key
 	 * @return
-	 */
+	 */ 
 	public static String getSysConfig(String key) {
 		if (sys_config == null) {
 			lock.lock();

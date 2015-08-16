@@ -3,7 +3,7 @@
 <html class="no-js">
 <%@include file="/assets/header.jsp" %>
 <body>
-	
+	 
 	  <div class="admin-content">
 
    <%@include file="/assets/statistic.jsp"%>

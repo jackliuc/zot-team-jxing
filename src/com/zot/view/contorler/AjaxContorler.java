@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.zot.xing.view.subscribe.SubscribeResultServiceImpl;
 
 /**
- * @author jack
+ * @author jack 
  *
  * 作为ajax的控制器，作为ajax的数据分发和数据返回
  */
