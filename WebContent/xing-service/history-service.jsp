@@ -1,4 +1,6 @@
-<%@page import="com.zot.xing.view.service.ServiceVO"%>
+<%@page import="com.zot.xing.view.service.XingWorkOrderVO"%>
+<%@page import="com.sun.xml.internal.fastinfoset.algorithm.BuiltInEncodingAlgorithm.WordListener"%>
+<%@page import="com.zot.xing.view.service.XingWorkOrderVO"%>
 <%@page import="java.util.List"%>
 <%@page import="com.zot.xing.view.common.IdVO"%>
 <%@page import="com.zot.xing.view.service.ServiceMgrService"%>
@@ -16,7 +18,7 @@
 	<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
 	 
 	<% 
-		List<ServiceVO> services = ServiceMgrService.queryServices(new IdVO());
+		List<XingWorkOrderVO> orders = ServiceMgrService.queryServices(new IdVO());
 	%>
 	
 	<div data-am-widget="list_news" class="am-list-news am-list-news-default">
@@ -24,7 +26,7 @@
 	  <div class="am-list-news-hd am-cf">
 	  
 	    <a href="##" class="">
-	      <h2>订单列表</h2>
+	      <h2>服务列表</h2>
 	      <span class="am-list-news-more am-fr">更多 &raquo;</span>
 	    </a>
 	  </div>
@@ -32,15 +34,15 @@
 	    <ul class="am-list">
 	      
 	      <% 
-	      	if (services != null)
+	      	if (orders != null)
 	      	{
-	      		for (ServiceVO service : services)
+	      		for (XingWorkOrderVO order : orders)
 	      		{
 	      			out.print("<li class=\"am-g am-list-item-dated\">");
 	      			out.print("<a href=\"##\" class=\"am-list-item-hd \">");
-	      			out.print(service.getServiceId());
+	      			out.print(order.getCustId());
 	      			out.print("</a> <span class=\"am-list-date\">");
-	      			out.print(service.getCarNo());
+	      			out.print(order.getCarNo());
 	      			out.print("</span></li>");	    	        
 	      		}
 	      	}

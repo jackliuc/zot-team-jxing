@@ -34,6 +34,8 @@ public class ServiceBO {
 	private Integer serviceType = 0;
 	
 	private Long avg_time = null;
+	
+	private Long price = null;
 
 	public String getService_id() {
 		return service_id;
@@ -85,6 +87,14 @@ public class ServiceBO {
 
 	public Long getAvg_time() {
 		return Math.round(cost_time*0.1/current_cnt);
+	}
+
+	public Long getPrice() {
+		return price;
+	}
+
+	public void setPrice(Long price) {
+		this.price = price;
 	}
 
 	

@@ -1,15 +1,15 @@
 package com.zot.xing.view.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 import com.zot.view.contorler.PrefixService;
 import com.zot.xing.view.common.IdVO;
 
-public class ServiceQueryAction extends PrefixService{
-	@Override
-	
-	public String action() {
+public class ServiceQueryAction implements PrefixService{
+
+	public String action(Map<String,String> context) {
 		//String subtype = (String)getValue("subtype");
 		
 		IdVO id = new IdVO();

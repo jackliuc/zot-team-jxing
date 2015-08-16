@@ -55,7 +55,7 @@ public class ServiceUtils {
 	private static Map<String,ServiceBO> queryServices()
 	{
 		final Map<String,ServiceBO> tmpService = new HashMap<String,ServiceBO>();
-		String sql = "SELECT service_id, service_name, service_des, cost_time, current_cnt  FROM t_zot_service";
+		String sql = "SELECT service_id, service_name, service_des, cost_time, current_cnt,price  FROM t_zot_service";
 		JDBCTemplate<Object> jdbcTmp = new JDBCTemplate<Object>();
 		jdbcTmp.query(sql, null, new ResultSetHandler<Object>(){
 
@@ -71,6 +71,7 @@ public class ServiceUtils {
 					
 					bo.setCost_time(rs.getLong("cost_time"));
 					bo.setCurrent_cnt(rs.getLong("current_cnt"));
+					bo.setPrice(rs.getLong("price"));
 					tmpService.put(serviceID, bo);
 				}
 				

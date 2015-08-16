@@ -10,7 +10,7 @@
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <link rel="icon" type="<%=request.getContextPath()%>/image/png" href="<%=request.getContextPath()%>/assets/i/favicon.png">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/amazeui.min.css">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/app.css">
+
 
 <script src="<%=request.getContextPath()%>/assets/js/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/assets/js/amazeui.min.js"></script>
