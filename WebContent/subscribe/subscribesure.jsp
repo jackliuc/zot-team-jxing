@@ -105,21 +105,20 @@ $("#confirmButton").click(function(){
  	var data = new Object();
 		
 	data.serviceAction = "subscribeResultAction";
-	data.subType = $("#subtype").val();
-	data.subTime = $("#ordertime").val();
-	data.overTime = $("#overtime").val();
+	data.subtype = $("#subtype").val();
+	data.subtime = $("#ordertime").val();
+	data.overtime = $("#overtime").val();
 	data.price = $("#price").val();
 	
 	$.post("<%=request.getContextPath()%>/busdata",
 			 data,
 			 function(result){
 			 $("#resultShow").show();	
-			 $("#subtype").val(data.subType);
-				$("#ordertime").val(data.subTime);
-				$("#overtime").val(data.overTime);
+			 $("#subtype").val(data.subtype);
+				$("#ordertime").val(data.subtime);
+				$("#overtime").val(data.overtime);
 				$("#price").val(data.price);
 	},"json");
-	
 	
 });
 
