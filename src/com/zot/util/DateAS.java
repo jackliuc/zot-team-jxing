@@ -3,6 +3,7 @@
  */
 package com.zot.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -17,6 +18,17 @@ public class DateAS {
 		return Calendar.getInstance().getTime();
 	}
 	
+	public static String getCurrentDateYHM()
+	{
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm").format(getCurrentDate());
+	}
+	
+    public static String addMinsWithCurrentDate(Long min)
+    {
+    	long times = getCurrentDate().getTime()+min*60*1000;
+    	
+    	return new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date(times));
+    }
 	/**
 	 * yyyy-MM-dd
 	 * @return
