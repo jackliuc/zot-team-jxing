@@ -15,7 +15,6 @@ import com.zot.wechat.util.ResMsgGen;
 import com.zot.xing.dao.wechat.WechatCustomer;
 import com.zot.xing.dao.wechat.WechatCustomerAS;
 import com.zot.xing.dao.wechat.WechatCustomerASImpl;
-import com.zot.xing.view.subscribe.SubscribeService;
 
 /**
  * @author jack
@@ -94,7 +93,7 @@ public class EventHandleAS implements WechatHandle {
 		}
 		desc+="  ";
 		desc+="最快服务时间：";
-		String time = SubscribeService.computeServiceTime(key);
+		String time = String.valueOf(DateAS.addMinsWithCurrentDate(Long.valueOf(15)));
 		desc+=time;
 		//当前正在服务的数量
 		ArticlesWechatMsg msg = new ArticlesWechatMsg();
