@@ -4,15 +4,6 @@
 <%@include file="/assets/header.jsp"%>
 <%@ page import="com.zot.xing.view.subscribe.SubscribeResultServiceImpl" %>
 <%@ page import="com.zot.view.contorler.PrefixService" %>
-<%
-PrefixService service = new SubscribeResultServiceImpl();
-service.setRequest(request);
-  String dataModel = service.action();
-%>
-<script type="text/javascript">
- var tt = <%=dataModel%>;
- 
-</script>
 <body>
 
 	<div class="admin-content">
@@ -65,6 +56,7 @@ service.setRequest(request);
 					<div class="am-margin">
 						<button type="submit" class="am-btn am-btn-primary am-btn-xs">确认</button>
 					</div>
+					
 				</div>
 			</form>
 		</div>
@@ -90,6 +82,24 @@ service.setRequest(request);
 			</a></li>
 		</ul>
 	</div>
-
+<button id="testajax" type="button" >test</button>
 </body>
+<script type="text/javascript">
+alert(<%=request.getParameter("subtype")%>);
+var data = new Object();
+data.serviceAction = "SubscribeResultServiceImpl";
+data.requestD = "<%=request.getParameterMap()%>";
+
+
+$("#testajax").click(function(){
+	 $.post("<%=request.getContextPath()%>/busdata",
+			 data,
+			 function(result){
+		 alert(result);
+	 },"json");
+});
+
+
+
+</script>
 </html>

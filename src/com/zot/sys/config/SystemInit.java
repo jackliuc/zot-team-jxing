@@ -23,6 +23,11 @@ public class SystemInit {
 	private static Properties db_config = null;
 
 	private static Properties sys_config = null;
+	
+	/**
+	 * 系统应用服务Action配置
+	 */
+	private static Properties app_service_config = null;
 
 	private static Lock lock = new ReentrantLock();
 
@@ -80,11 +85,11 @@ public class SystemInit {
 			lock.lock();
 			if (sys_config == null) {
 				Properties prop = new Properties();
-				InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("jdbc.properties");
+				InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("sysconfig.properties");
 				try {
 					prop.load(in);
 				} catch (IOException e) {
-					logger.error("system jdbc config init failed", e);
+					logger.error("system config init failed", e);
 					throw new ZOTException(e);
 				} finally {
 					try {
@@ -99,5 +104,37 @@ public class SystemInit {
 
 		}
 		return sys_config.getProperty(key);
+	}
+	
+	/**
+	 * 初始化系统全局配置数据（第一次调用的时候初始化）
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public static String getAppServiceClazz(String key) {
+		if (app_service_config == null) {
+			lock.lock();
+			if (app_service_config == null) {
+				Properties prop = new Properties();
+				InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("zot-application.properties");
+				try {
+					prop.load(in);
+				} catch (IOException e) {
+					logger.error("system app config init failed", e);
+					throw new ZOTException(e);
+				} finally {
+					try {
+						in.close();
+					} catch (IOException e) {
+
+					}
+					app_service_config = prop;
+					lock.unlock();
+				}
+			}
+
+		}
+		return app_service_config.getProperty(key);
 	}
 }

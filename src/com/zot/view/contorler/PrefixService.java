@@ -3,12 +3,12 @@
  */
 package com.zot.view.contorler;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-
-import com.zot.wechat.handle.RevMsgParse;
 
 /**
  * @author jack
@@ -18,9 +18,7 @@ public abstract class PrefixService {
 	
 	private static Logger log = Logger.getLogger(PrefixService.class);
 	
-	private HttpServletRequest request = null;
-	
-	private HttpServletResponse response = null;
+	private Map<String,String[]> context = null;
 	
 	/**
 	 * 逻辑架构入口，返回的对象为json对象格式，值为前台页面的DataModel
@@ -36,31 +34,19 @@ public abstract class PrefixService {
 	 */
 	protected Object getValue(String key)
 	{
-		if(null == request)
+		if(null == context)
 		{
-			log.error("request can not be null");
-			
+			log.error("request context can not be null");
 			return null;
 		}
 		
-		return request.getParameter(key);
+		return context.get(key);
 	}
 
-	public HttpServletRequest getRequest() {
-		return request;
+	public void setContext(Map<String, String[]> context) {
+		this.context = context;
 	}
 
-	public void setRequest(HttpServletRequest request) {
-		this.request = request;
-	}
 
-	public HttpServletResponse getResponse() {
-		return response;
-	}
-
-	public void setResponse(HttpServletResponse response) {
-		this.response = response;
-	}
-	
 	
 }
