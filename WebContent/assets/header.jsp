@@ -14,6 +14,7 @@
 
 <script src="<%=request.getContextPath()%>/assets/js/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/assets/js/amazeui.min.js"></script>
+<script src="<%=request.getContextPath()%>/assets/util/zot.js"></script>
 </head>
 
 
