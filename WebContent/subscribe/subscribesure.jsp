@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <html class="no-js">
 <%@include file="/assets/header.jsp"%>
-<%@ page import="com.zot.util.RequestToJsonUtil" %>
 <body>
  
 	<div class="admin-content">
@@ -11,8 +10,7 @@
 	
 		<hr data-am-widget="divider" class="am-divider am-divider-default" />
 		<div id="tab2">
-			<form class="am-form" action="#">
-				<div class="am-g am-margin-top">
+			<div class="am-g am-margin-top">
 					<div class="am-u-sm-4 am-u-md-2 am-text-right">服务类型</div>
 					<div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
 						<select id="subtype" readonly="readonly">
@@ -52,11 +50,10 @@
 				<div class="am-g am-margin-top">
 					<button id="confirmButton" class="am-btn-block">确认</button>
 				</div>
-			</form>
-		</div>
+			</div>
 	</div>
 	
-	 <div id="resultShow" class="am-u-sm-12  am-text-center" style="display: none;">
+	 <div id="resultShow" class="am-u-sm-12  am-text-center" style="display:none">
                                                         预约成功，请凭借微信条形码到店服务
      </div>
 	<!-- Navbar -->
@@ -67,7 +64,7 @@
 					<span class="am-navbar-label">呼叫</span>
 			</a></li>
 			<li><a
-				href="<%=request.getContextPath()%>/subscribe/self-subscribe.jsp">
+				href="<%=request.getContextPath()%>/subscribe/self-subscribe.jsp?subtype=<%=request.getParameter("subtype")%>">
 					<span class="am-icon-qrcode"></span> <span class="am-navbar-label">自助选择</span>
 			</a></li>
 			<li data-am-navbar-share><a href="###"> <span
@@ -84,47 +81,42 @@
 
 <script type="text/javascript">
 
+function initCallback(result)
+{
+	$("#subtype").val(result.subType);
+	$("#ordertime").val(result.subTime);
+	$("#overtime").val(result.overTime);
+	$("#price").val(result.price);	
+}
+
 function init()
 {
 	var data = new Object();
 	data.serviceAction = "subscribeAction";
 	data.subtype = '<%=request.getParameter("subtype")%>';
 
-	$.post("<%=request.getContextPath()%>/busdata",
-			 data,
-			 function(result){
-		$("#subtype").val(result.subType);
-		$("#ordertime").val(result.subTime);
-		$("#overtime").val(result.overTime);
-		$("#price").val(result.price);
-	},"json");	
+	$.zot.post(data,initCallback);
+}
+
+init();
+
+function resultCallBack()
+{
+	$("#resultShow").show();
 }
 
 $("#confirmButton").click(function(){
 	
- 	var data = new Object();
+ 	var dataD = new Object();
 		
-	data.serviceAction = "subscribeResultAction";
-	data.subtype = $("#subtype").val();
-	data.subtime = $("#ordertime").val();
-	data.overtime = $("#overtime").val();
-	data.price = $("#price").val();
+ 	dataD.serviceAction = "subscribeResultAction";
+ 	dataD.subtype = $("#subtype").val();
+ 	dataD.subtime = $("#ordertime").val();
+ 	dataD.overtime = $("#overtime").val();
+ 	dataD.price = $("#price").val();
 	
-	$.post("<%=request.getContextPath()%>/busdata",
-			 data,
-			 function(result){
-			 $("#resultShow").show();	
-			 $("#subtype").val(data.subtype);
-				$("#ordertime").val(data.subtime);
-				$("#overtime").val(data.overtime);
-				$("#price").val(data.price);
-	},"json");
-	
+	$.zot.post(dataD,resultCallBack);	
 });
-
-init();
-
-
 
 </script>
 </html>
