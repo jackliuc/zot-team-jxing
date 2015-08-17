@@ -3,6 +3,7 @@
  */
 package com.zot.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,5 +46,18 @@ public class DateAS {
     public static java.sql.Timestamp getCurrentSQLTimestamp()
     {
     	return new java.sql.Timestamp(getCurrentDate().getTime());
+    }
+    
+    public static java.sql.Timestamp getSQLTimestampFromString(String date) 
+    {
+    	Date d = null;
+		try {
+			d = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
+			return new java.sql.Timestamp(d.getTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} 
+		
+    	return null;
     }
 }
