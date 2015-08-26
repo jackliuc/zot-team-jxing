@@ -23,7 +23,6 @@ public class SystemInit {
 	private static Properties db_config = null;
 
 	private static Properties sys_config = null;
-	
 	/**
 	 * 系统应用服务Action配置
 	 */
@@ -31,7 +30,7 @@ public class SystemInit {
 
 	private static Lock lock = new ReentrantLock();
 
-	private static Logger logger = null;
+	private static Logger logger = null;	
 
 	/**
 	 * 系统日志初始化（系统启动的时候初始化）

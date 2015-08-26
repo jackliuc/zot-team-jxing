@@ -2,37 +2,74 @@ package com.zot.xing.view.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.zot.db.JDBCTemplate;
+import com.zot.xing.dao.subscribe.ServiceBO;
+import com.zot.xing.dao.subscribe.ServiceUtils;
+import com.zot.xing.dao.subscribe.WorkOrderAS;
+import com.zot.xing.dao.subscribe.WorkOrderASImpl;
+import com.zot.xing.dao.subscribe.XingWorkOrderBO;
 import com.zot.xing.view.common.IdVO;
+import com.zot.xing.view.common.OrderStatus;
 
 public class ServiceMgrService {
-	private static final String QRY_SERVICES = "select * from t_zot_work_order where cust_id = ?";
-	private static final String UPDATE_SERVICES = "update t_zot_work_order set eval_desc_type = ?, eval_desc = ? where id = ?";
 	
-	public static List<XingWorkOrderVO> queryServices(IdVO id)
+	public static List<XingWorkOrderVO> queryOrders(IdVO id)
 	{
-		JDBCTemplate<List<XingWorkOrderVO>> jt = new JDBCTemplate<List<XingWorkOrderVO>>();
+		List<XingWorkOrderVO> orderVOs = new ArrayList<XingWorkOrderVO>();
 		
-		List<Object> params = new ArrayList<Object>();
-		params.add(id.getId());
+		WorkOrderAS workOrderAS = new WorkOrderASImpl();		
+		List<XingWorkOrderBO> orderBOs = workOrderAS.queryWorkOrderByCusID(id.getId());
+		if (orderBOs != null)
+		{
+			for (XingWorkOrderBO orderBO : orderBOs)
+			{
+				orderVOs.add(cvt2XingWorkOrderVO(orderBO));
+			}				
+		}
 		
-		List<XingWorkOrderVO> services = jt.query(QRY_SERVICES, params, new ServiceResultHandlerImpl());
-		
-		return services;
+		return orderVOs;
 	}
 	
-	public static boolean complainService(IdVO id, XingWorkOrderVO order)
+	public static void complainOrder(IdVO id, XingWorkOrderVO order)
 	{
-		JDBCTemplate<Object> jt = new JDBCTemplate<Object>();
+		WorkOrderAS workOrderAS = new WorkOrderASImpl();	
 		
-		List<Object> params = new ArrayList<Object>();
-		params.add(Integer.valueOf(order.getEvalType()));
-		params.add(order.getEvalDesc());
-		params.add(order.getWorkOrderId());
+		workOrderAS.updateWorkOrderEval(order.getWorkOrderId(), String.valueOf(order.getEvalType()), order.getEvalDesc());
+	}
+	
+	private static XingWorkOrderVO cvt2XingWorkOrderVO(XingWorkOrderBO orderBO)
+	{
+		XingWorkOrderVO orderVO = new XingWorkOrderVO();
+		orderVO.setCustId(orderBO.getCust_id());
 		
-		jt.execute(UPDATE_SERVICES, params);
+		ServiceBO service = ServiceUtils.queryServiceBySKey(orderBO.getOrder_type());
+		if (service != null)
+		{
+			orderVO.setServiceName(service.getService_name());
+		}
+		orderVO.setEvalDesc(orderBO.getEval_desc());
+		orderVO.setEvalType(orderBO.getEval_desc_type());
+		orderVO.setServicePerson(orderBO.getService_person_num());
+		orderVO.setServieTime(orderBO.getService_time());
+		orderVO.setWorkOrderId(orderBO.getId());
+		orderVO.setWorkOrderType(Integer.parseInt(orderBO.getOrder_type()));
+		orderVO.setStatus(getStatusByTime(orderBO));
+		orderVO.setStatusDes(orderVO.getStatus().toString());
 		
-		return true;
+		return orderVO;
+	}
+	
+	private static OrderStatus getStatusByTime(XingWorkOrderBO orderBO)
+	{
+		if (orderBO.getOver_time() != null)
+		{
+			return OrderStatus.FINISHED;
+		}
+		
+		if (orderBO.getService_time() != null)
+		{
+			return OrderStatus.DOING;
+		}
+		
+		return OrderStatus.WAITING;
 	}
 }

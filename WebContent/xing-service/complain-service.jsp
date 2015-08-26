@@ -11,7 +11,7 @@
 	<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
 	
 	<% 
-		String servId = request.getParameter("servId");
+		String workOrderId = request.getParameter("workOrderId");
 		String userType = request.getParameter("userType");
 		String userId = request.getParameter("userId");
 	%>
@@ -34,7 +34,7 @@
 		      <textarea id="doc-vld-ta-2" name="evalDesc" minlength="1" maxlength="100"></textarea>
 		    </div>
 		    
-		    <input type="hidden" name="servId" value="<%=servId%>">
+		    <input type="hidden" name="workOrderId" value="<%=workOrderId%>">
 		    <!-- 
 		    <input type="hidden" name="userType" value="<%=userType%>">
 		    <input type="hidden" name="userId" value="<%=userId%>">

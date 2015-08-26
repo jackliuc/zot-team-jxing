@@ -2,23 +2,18 @@
 	pageEncoding="UTF-8"%>
 <html class="no-js">
 <%@include file="/assets/header.jsp"%>
-<%@ page import="com.zot.view.contorler.PrefixService" %>
 <body>
  
 	<div class="admin-content">
 
 	<%@include file="/assets/statistic.jsp"%>
 	
-		<hr data-am-widget="divider" style=""
-			class="am-divider am-divider-default" />
+		<hr data-am-widget="divider" class="am-divider am-divider-default" />
 		<div id="tab2">
-			<form class="am-form"
-				action="<%=request.getContextPath()%>/subscribe/subscribe-result.jsp"
-				method="post">
-				<div class="am-g am-margin-top">
+			<div class="am-g am-margin-top">
 					<div class="am-u-sm-4 am-u-md-2 am-text-right">服务类型</div>
 					<div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
-						<select name="subtype">
+						<select id="subtype" readonly="readonly">
 							<option value="10001">洗车</option>
 							<option value="10002">做漆</option>
 							<option value="10003">钣金</option>
@@ -29,37 +24,38 @@
 				<div class="am-g am-margin-top">
 					<div class="am-u-sm-4 am-u-md-2 am-text-right">最佳到店时间</div>
 					<div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
-						<input name="ordertime" type="text" class="am-input-sm"
+						<input id="ordertime" type="text" class="am-input-sm"
 							readonly="readonly">
 					</div>
 				</div>
 
 				<div class="am-g am-margin-top">
-					<div class="am-u-sm-4 am-u-md-2 am-text-right">预计完成时间</div>
+					<div class="am-u-sm-4 am-u-md-2 am-text-right">做工时间</div>
 					<div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
-						<input name="overtime" type="text" class="am-input-sm"
+						<input id="overtime" type="text" class="am-input-sm"
 							readonly="readonly">
 					</div>
+					<div class="am-hide-sm-only am-u-md-6">分钟</div>
 				</div>
 
 				<div class="am-g am-margin-top">
 					<div class="am-u-sm-4 am-u-md-2 am-text-right">服务价格</div>
 					<div class="am-u-sm-8 am-u-md-4">
-						<input name="price" type="text" class="am-input-sm"
+						<input id="price" type="text" class="am-input-sm"
 							readonly="readonly">
 					</div>
 					<div class="am-hide-sm-only am-u-md-6">已享受折扣</div>
 
 				</div>
 				<div class="am-g am-margin-top">
-					<div class="am-margin">
-						<button type="submit" class="am-btn am-btn-primary am-btn-xs">确认</button>
-					</div>
-					
+					<button id="confirmButton" class="am-btn-block">确认</button>
 				</div>
-			</form>
-		</div>
+			</div>
 	</div>
+	
+	 <div id="resultShow" class="am-u-sm-12  am-text-center" style="display:none">
+                                                        预约成功，请凭借微信条形码到店服务
+     </div>
 	<!-- Navbar -->
 	<div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default "
 		id="">
@@ -68,7 +64,7 @@
 					<span class="am-navbar-label">呼叫</span>
 			</a></li>
 			<li><a
-				href="<%=request.getContextPath()%>/subscribe/self-subscribe.jsp">
+				href="<%=request.getContextPath()%>/subscribe/self-subscribe.jsp?subtype=<%=request.getParameter("subtype")%>">
 					<span class="am-icon-qrcode"></span> <span class="am-navbar-label">自助选择</span>
 			</a></li>
 			<li data-am-navbar-share><a href="###"> <span
@@ -81,24 +77,46 @@
 			</a></li>
 		</ul>
 	</div>
-<button id="testajax" type="button" >test</button>
 </body>
+
 <script type="text/javascript">
-alert(<%=request.getParameter("subtype")%>);
-var data = new Object();
-data.serviceAction = "SubscribeResultServiceImpl";
-data.requestD = "<%=request.getParameterMap()%>";
 
+function initCallback(result)
+{
+	$("#subtype").val(result.subType);
+	$("#ordertime").val(result.subTime);
+	$("#overtime").val(result.overTime);
+	$("#price").val(result.price);	
+}
 
-$("#testajax").click(function(){
-	 $.post("<%=request.getContextPath()%>/busdata",
-			 data,
-			 function(result){
-		 alert(result);
-	 },"json");
+function init()
+{
+	var data = new Object();
+	data.serviceAction = "subscribeAction";
+	data.subtype = '<%=request.getParameter("subtype")%>';
+
+	$.zot.post(data,initCallback);
+}
+
+init();
+
+function resultCallBack()
+{
+	$("#resultShow").show();
+}
+
+$("#confirmButton").click(function(){
+	
+ 	var dataD = new Object();
+		
+ 	dataD.serviceAction = "subscribeResultAction";
+ 	dataD.subtype = $("#subtype").val();
+ 	dataD.subtime = $("#ordertime").val();
+ 	dataD.overtime = $("#overtime").val();
+ 	dataD.price = $("#price").val();
+	
+	$.zot.post(dataD,resultCallBack);	
 });
-
-
 
 </script>
 </html>

@@ -44,6 +44,13 @@ public interface WorkOrderAS {
 	public void updateWorkOrderEvalResult(String id,String evalResult);
 	
 	/**
+	 * 根据客户Id查询客户订单信息，查询此客户的所有订单
+	 * @param cusId 客户ID
+	 * @return
+	 */
+	public List<XingWorkOrderBO> queryWorkOrderByCusID(String cusId);
+	
+	/**
 	 * 根据用户ID查询客户服务信息，时间默认为当天
 	 * @param cusId 客户ID
 	 * @param beginTime 开始时间

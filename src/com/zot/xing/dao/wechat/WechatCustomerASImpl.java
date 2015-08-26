@@ -15,31 +15,31 @@ import com.zot.util.DateAS;
  */
 public class WechatCustomerASImpl implements WechatCustomerAS{
 
-	private String addSql = "INSERT INTO t_zot_xing_wechatsub VALUES (?, ?, ?, ?,?)";
+	private static final String INSERT_INTO_T_ZOT_XING_WECHATSUB_SQL = "INSERT INTO t_zot_xing_wechatsub VALUES (?, ?, ?, ?,?)";
 	
 	@Override
 	public void addWechatCustomer(WechatCustomer customer) {
-		JDBCTemplate sqlTemplate = new JDBCTemplate();
+		JDBCTemplate<Object> sqlTemplate = new JDBCTemplate<Object>();
 		List<Object> params = new ArrayList<Object>();
 		params.add(customer.getWechatNO());
 		params.add(customer.getWechatName());
 		params.add(customer.getPhoneNo());
 		params.add(DateAS.getCurrentSQLTimestamp());
 		params.add(null);
-		sqlTemplate.execute(addSql, params);
+		sqlTemplate.execute(INSERT_INTO_T_ZOT_XING_WECHATSUB_SQL, params);
 	}
 
-	private String updateSql = "update t_zot_xing_wechatsub set calsubtime = ? where wechatno = ?";
+	private String UPDATE_INTO_T_ZOT_XING_WECHATSUB_SQL = "update t_zot_xing_wechatsub set calsubtime = ? where wechatno = ?";
 	@Override
 	public void updateCalSubCustomer(String wechatNo) {
 	
 //		updateSql += wechatNo;
 		
-		JDBCTemplate sqlTemplate = new JDBCTemplate();
+		JDBCTemplate<Object> sqlTemplate = new JDBCTemplate<Object>();
 		List<Object> params = new ArrayList<Object>();
 		params.add(DateAS.getCurrentSQLTimestamp());
 		params.add(wechatNo);
-		sqlTemplate.execute(updateSql, params);
+		sqlTemplate.execute(UPDATE_INTO_T_ZOT_XING_WECHATSUB_SQL, params);
 	}
 	
 }
