@@ -3,8 +3,13 @@
  */
 package com.zot.xing.dao.subscribe;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.zot.db.JDBCTemplate;
+import com.zot.xing.view.service.WorkOrderResultHandlerImpl;
+import com.zot.xing.view.service.XingWorkOrderVO;
 
 /**
  * @author jack
@@ -12,6 +17,10 @@ import java.util.List;
  */
 public class WorkOrderASImpl implements WorkOrderAS {
 
+	private static final String QRY_SERVICES = "select * from t_zot_work_order where cust_id = ? order by create_time desc";
+	private static final String UPDATE_SERVICES = "update t_zot_work_order set eval_desc_type = ?, eval_desc = ? where id = ?";
+	
+	
 	/* (non-Javadoc)
 	 * @see com.zot.xing.dao.subscribe.WorkOrderAS#addPreSubscribeService(com.zot.xing.dao.subscribe.XingWorkOrderBO)
 	 */
@@ -44,8 +53,14 @@ public class WorkOrderASImpl implements WorkOrderAS {
 	 */
 	@Override
 	public void updateWorkOrderEval(String id, String evalType, String evalDesc) {
-		// TODO Auto-generated method stub
-
+		JDBCTemplate<Object> jt = new JDBCTemplate<Object>();
+		
+		List<Object> params = new ArrayList<Object>();
+		params.add(Integer.valueOf(evalType));
+		params.add(evalDesc);
+		params.add(id);
+		
+		jt.execute(UPDATE_SERVICES, params);
 	}
 
 	/* (non-Javadoc)
@@ -55,6 +70,18 @@ public class WorkOrderASImpl implements WorkOrderAS {
 	public void updateWorkOrderEvalResult(String id, String evalResult) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	@Override
+	public List<XingWorkOrderBO> queryWorkOrderByCusID(String cusId) {
+		JDBCTemplate<List<XingWorkOrderBO>> jt = new JDBCTemplate<List<XingWorkOrderBO>>();
+		
+		List<Object> params = new ArrayList<Object>();
+		params.add(cusId);
+		
+		List<XingWorkOrderBO> orders = jt.query(QRY_SERVICES, params, new WorkOrderResultHandlerImpl());
+		
+		return orders;
 	}
 
 	/* (non-Javadoc)
