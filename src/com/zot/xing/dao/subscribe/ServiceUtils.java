@@ -6,7 +6,6 @@ package com.zot.xing.dao.subscribe;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -54,15 +53,15 @@ public class ServiceUtils {
 	
 	private static Map<String,ServiceBO> queryServices()
 	{
-		final Map<String,ServiceBO> tmpService = new HashMap<String,ServiceBO>();
 		String sql = "SELECT service_id, service_name, service_des, cost_time, current_cnt,price  FROM t_zot_service";
-		JDBCTemplate<Object> jdbcTmp = new JDBCTemplate<Object>();
-		jdbcTmp.query(sql, null, new ResultSetHandler<Object>(){
-
+		JDBCTemplate<Map<String,ServiceBO>> jdbcTmp = new JDBCTemplate<Map<String,ServiceBO>>();
+		return jdbcTmp.query(sql, null, new ResultSetHandler<Map<String,ServiceBO>>(){
 			@Override
-			public Object rsHandler(ResultSet rs) throws SQLException {
+			public Map<String,ServiceBO> rsHandler(ResultSet rs) throws SQLException {
+				Map<String,ServiceBO> tmpService = new HashMap<String,ServiceBO>();
 				while(rs.next())
 				{
+					
 					ServiceBO bo = new ServiceBO();
 					String serviceID = rs.getString("service_id");
 					bo.setService_id(serviceID);
@@ -75,11 +74,9 @@ public class ServiceUtils {
 					tmpService.put(serviceID, bo);
 				}
 				
-				return null;
+				return tmpService;
 			}
 			
 		});
-		
-		return tmpService;
 	}
 }

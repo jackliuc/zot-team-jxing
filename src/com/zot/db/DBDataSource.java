@@ -17,7 +17,9 @@ import org.apache.commons.dbcp2.PoolableConnectionFactory;
 import org.apache.commons.dbcp2.PoolingDataSource;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.apache.log4j.Logger;
 
+import com.sina.sae.util.SaeUserInfo;
 import com.zot.sys.config.SystemInit;
 
 /**
@@ -29,16 +31,19 @@ public class DBDataSource {
 	private static DataSource dataSource = null;
 
 	private static Lock lock = new ReentrantLock();
+	
+	private static Logger logger = Logger.getLogger(DBDataSource.class);
 
 	public static Connection getConnection() throws SQLException {
 		if (dataSource == null) {
 			lock.lock();
 			if (dataSource == null) {
+				String userName = SystemInit.getDBConfig("db.username");
+				String passWord = SystemInit.getDBConfig("db.password");
 				try {
-					Class.forName(SystemInit.getDBConfig("db.driver"));
+					Class.forName(SystemInit.getDBConfig("db.driver")).newInstance();
 					ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(
-							SystemInit.getDBConfig("db.url"), SystemInit.getDBConfig("db.username"),
-							SystemInit.getDBConfig("db.password"));
+							SystemInit.getDBConfig("db.url"),userName ,passWord);
 
 					PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(
 							connectionFactory, null);
@@ -52,6 +57,11 @@ public class DBDataSource {
 					dataSource = ds;
 
 				} catch (ClassNotFoundException e) {
+					logger.error(e.getMessage(),e);
+				} catch (InstantiationException e) {
+					logger.error(e.getMessage(),e);
+				} catch (IllegalAccessException e) {
+					logger.error(e.getMessage(),e);
 				}
 			}
 		}

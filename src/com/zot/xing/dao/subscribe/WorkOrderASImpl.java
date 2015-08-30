@@ -28,7 +28,7 @@ public class WorkOrderASImpl implements WorkOrderAS {
 	public void addPreSubscribeService(XingWorkOrderBO workOrder) {
 		JDBCTemplate<Object> sqlTemplate = new JDBCTemplate<Object>();
 		List<Object> params = new ArrayList<Object>();
-		params.add(UUID.randomUUID());
+		params.add(UUID.randomUUID().toString());
 		params.add(DateAS.getCurrentSQLTimestamp());
 		params.add(workOrder.getCust_id());
 		params.add(workOrder.getOrder_time());

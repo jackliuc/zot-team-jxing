@@ -8,6 +8,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="renderer" content="webkit">
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<input type="hidden" id="contextPath" value="<%= request.getContextPath()%>" /> 
+
 <link rel="icon" type="<%=request.getContextPath()%>/image/png" href="<%=request.getContextPath()%>/assets/i/favicon.png">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/amazeui.min.css">
 

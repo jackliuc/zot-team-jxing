@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <html class="no-js">
+<script src="<%=request.getContextPath()%>/assets/util/jquery.qrcode.min.js"></script>
 <%@include file="/assets/header.jsp"%>
 <body>
  
@@ -30,12 +31,11 @@
 				</div>
 
 				<div class="am-g am-margin-top">
-					<div class="am-u-sm-4 am-u-md-2 am-text-right">做工时间</div>
+					<div class="am-u-sm-4 am-u-md-2 am-text-right">预计完成时间</div>
 					<div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
 						<input id="overtime" type="text" class="am-input-sm"
 							readonly="readonly">
 					</div>
-					<div class="am-hide-sm-only am-u-md-6">分钟</div>
 				</div>
 
 				<div class="am-g am-margin-top">
@@ -55,6 +55,9 @@
 	
 	 <div id="resultShow" class="am-u-sm-12  am-text-center" style="display:none">
                                                         预约成功，请凭借微信条形码到店服务
+     </div>
+     <div id="resultCode" class="am-u-sm-12  am-text-center" style="display:none">
+                                                  
      </div>
 	<!-- Navbar -->
 	<div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default "
@@ -102,7 +105,14 @@ init();
 
 function resultCallBack()
 {
+	$("#resultCode").qrcode({
+		width:128,
+		height:128,
+		correctLevel:0,
+		text:$("#subtype").val()
+	});
 	$("#resultShow").show();
+	$("#resultCode").show();
 }
 
 $("#confirmButton").click(function(){
