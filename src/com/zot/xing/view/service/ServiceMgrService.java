@@ -48,7 +48,8 @@ public class ServiceMgrService {
 		}
 		orderVO.setEvalDesc(orderBO.getEval_desc());
 		orderVO.setEvalType(orderBO.getEval_desc_type());
-		orderVO.setServicePerson(orderBO.getService_person_num());
+		String servPerson = orderBO.getService_person_num() == null ? "" : orderBO.getService_person_num();
+		orderVO.setServicePerson(servPerson);
 		orderVO.setServieTime(orderBO.getService_time());
 		orderVO.setWorkOrderId(orderBO.getId());
 		orderVO.setWorkOrderType(Integer.parseInt(orderBO.getOrder_type()));

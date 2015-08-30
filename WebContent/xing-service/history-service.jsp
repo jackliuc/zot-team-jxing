@@ -53,7 +53,11 @@
 	      			out.print("服务项目：" + order.getServiceName());
 	      			out.print("</span>");
 	      			out.print("<span class=\"am-list-news-more am-fr\">");
-	      			out.print("服务时间：" + order.getServieTime());
+	      			out.print("服务时间：");
+	      			if (order.getServieTime() != null)
+	      			{
+	      				out.print(order.getServieTime());	
+	      			}     			
 	      			out.print("</span></li>");	
 	      			
 	      			out.print("<li class=\"am-g am-list-item-dated\">");
