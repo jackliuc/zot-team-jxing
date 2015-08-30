@@ -19,7 +19,6 @@ import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.log4j.Logger;
 
-import com.sina.sae.util.SaeUserInfo;
 import com.zot.sys.config.SystemInit;
 
 /**

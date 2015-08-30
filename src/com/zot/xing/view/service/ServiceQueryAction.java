@@ -9,15 +9,17 @@ import com.zot.xing.view.common.IdVO;
 
 public class ServiceQueryAction implements PrefixService{
 
-	public List<ServiceVO> action(Map<String,String> context) {
+	public String action(Map<String,String> context) {
 		//String subtype = (String)getValue("subtype");
 		
 		IdVO id = new IdVO();
 		id.setIdType(1);
 		id.setId("101");
 		
-		List<ServiceVO> services = ServiceMgrService.queryServices(id);
-	
-    	return services;
+		List<XingWorkOrderVO> services = ServiceMgrService.queryOrders(id);
+		
+		String jsonstr = JSON.toJSONString(services);
+		
+		return jsonstr;
 	}
 }

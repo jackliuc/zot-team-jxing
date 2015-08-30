@@ -63,7 +63,7 @@ public class ServiceUtils {
 				{
 					
 					ServiceBO bo = new ServiceBO();
-					String serviceID = rs.getString("service_id");
+					String serviceID = rs.getString("service_id").trim();
 					bo.setService_id(serviceID);
 					bo.setService_des(rs.getString("service_des"));
 					bo.setService_name(rs.getString("service_name"));

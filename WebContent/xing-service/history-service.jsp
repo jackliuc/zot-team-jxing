@@ -1,6 +1,8 @@
-<%@page import="com.zot.xing.view.service.ServiceVO"%>
+<%@page import="com.zot.xing.view.service.XingWorkOrderVO"%>
+<%@page import="com.sun.xml.internal.fastinfoset.algorithm.BuiltInEncodingAlgorithm.WordListener"%>
+<%@page import="com.zot.xing.view.service.XingWorkOrderVO"%>
 <%@page import="java.util.List"%>
-<%@page import="com.zot.xing.view.common.IdVO"%>
+<%@page import="com.zot.xing.view.common.*"%>
 <%@page import="com.zot.xing.view.service.ServiceMgrService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <%@ page import="com.zot.xing.view.service.ServiceQueryAction" %>
@@ -16,7 +18,9 @@
 	<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
 	 
 	<% 
-		List<ServiceVO> services = ServiceMgrService.queryServices(new IdVO());
+		//String subId = request.getParameter("subId");
+		String subId = "101";
+		List<XingWorkOrderVO> orders = ServiceMgrService.queryOrders(new IdVO(0, subId));
 	%>
 	
 	<div data-am-widget="list_news" class="am-list-news am-list-news-default">
@@ -32,16 +36,43 @@
 	    <ul class="am-list">
 	      
 	      <% 
-	      	if (services != null)
+	      	if (orders != null)
 	      	{
-	      		for (ServiceVO service : services)
+	      		for (XingWorkOrderVO order : orders)
 	      		{
 	      			out.print("<li class=\"am-g am-list-item-dated\">");
-	      			out.print("<a href=\"##\" class=\"am-list-item-hd \">");
-	      			out.print(service.getServiceId());
-	      			out.print("</a> <span class=\"am-list-date\">");
-	      			out.print(service.getCarNo());
-	      			out.print("</span></li>");	    	        
+	      			out.print("<span class=\"am-list-item-hd \">");
+	      			out.print("订单状态：" + order.getStatus());
+	      			out.print("</span>");
+	      			out.print("<span class=\"am-list-news-more am-fr\">");
+	      			out.print("订单号：" + order.getWorkOrderId());
+	      			out.print("</span></li>");
+	      			
+	      			out.print("<li class=\"am-g am-list-item-dated\">");
+	      			out.print("<span class=\"am-list-item-hd \">");
+	      			out.print("服务项目：" + order.getServiceName());
+	      			out.print("</span>");
+	      			out.print("<span class=\"am-list-news-more am-fr\">");
+	      			out.print("服务时间：");
+	      			if (order.getServieTime() != null)
+	      			{
+	      				out.print(order.getServieTime());	
+	      			}     			
+	      			out.print("</span></li>");	
+	      			
+	      			out.print("<li class=\"am-g am-list-item-dated\">");
+	      			out.print("<span class=\"am-list-item-hd \">");
+	      			out.print("服务人：" + order.getServicePerson());
+	      			out.print("</span>");
+	      			
+	      			if(order.getStatus() == OrderStatus.FINISHED)
+	      			{
+	      				out.print("<a href=\"complain-service.jsp?workOrderId=");
+	      				out.print(order.getWorkOrderId());
+	      				out.print("\" class=\"am-list-news-more am-fr\">");      			
+		      			out.print("我要评价</a>");	
+	      			}
+	      			out.print("</li><br>");
 	      		}
 	      	}
 	      %>	      

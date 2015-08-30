@@ -11,11 +11,11 @@ public class TestServiceMgrService extends TestCase{
 	public void testQueryServices()
 	{
 		//List<ServiceVO> services = ServiceMgrService.queryServices(new IdVO());
-		List<ServiceVO> services = new ArrayList<ServiceVO>();
+		List<XingWorkOrderVO> services = new ArrayList<XingWorkOrderVO>();
 		
-		ServiceVO vo = new ServiceVO();
+		XingWorkOrderVO vo = new XingWorkOrderVO();
 		vo.setCarNo("101");
-		vo.setServiceId("good");
+		vo.setEvalDesc("good");
 		services.add(vo);
 		
 		String jsonstr = JSON.toJSONString(services);

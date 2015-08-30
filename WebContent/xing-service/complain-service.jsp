@@ -9,7 +9,41 @@
       <li><a href="#" class="am-text-danger"><span class="am-icon-btn am-icon-recycle"></span><br/>已服务数<br/>80082</a></li>
     </ul>
 	<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
-	待更新
+	
+	<% 
+		String workOrderId = request.getParameter("workOrderId");
+		String userType = request.getParameter("userType");
+		String userId = request.getParameter("userId");
+	%>
+	
+	<form action="complain-finished.jsp" method="post" class="am-form" data-am-validator>
+  		<fieldset>
+    		<legend>服务评价</legend>    
+		    	<div class="am-form-group">
+		  		<h3>您觉得本次服务</h3>
+		  		<label class="am-radio-inline">
+		    		<input type="radio" name="evalType" value="1" checked data-am-ucheck> 好
+		  		</label>
+		  		<label class="am-radio-inline">
+		    		<input type="radio" name="evalType" value="2" data-am-ucheck> 差
+		  		</label>
+			</div>
+		
+		    <div class="am-form-group">
+		      <label for="doc-vld-ta-2">评论：</label>
+		      <textarea id="doc-vld-ta-2" name="evalDesc" minlength="1" maxlength="100"></textarea>
+		    </div>
+		    
+		    <input type="hidden" name="workOrderId" value="<%=workOrderId%>">
+		    <!-- 
+		    <input type="hidden" name="userType" value="<%=userType%>">
+		    <input type="hidden" name="userId" value="<%=userId%>">
+		     -->
+		
+		    <button class="am-btn am-btn-secondary" type="submit">提交</button>
+		 </fieldset>
+	</form>
+	
 	</div>
 <%@include file="/assets/footer.jsp" %>
 </body>
