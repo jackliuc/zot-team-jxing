@@ -5,6 +5,7 @@ package com.zot.db;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -20,6 +21,8 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.log4j.Logger;
 
 import com.zot.sys.config.SystemInit;
+
+import sun.swing.text.CountingPrintable;
 
 /**
  * @author jack
@@ -41,16 +44,26 @@ public class DBDataSource {
 				String passWord = SystemInit.getDBConfig("db.password");
 				try {
 					Class.forName(SystemInit.getDBConfig("db.driver")).newInstance();
+					Properties connProp = new Properties();
+					connProp.setProperty("username",userName );
+					connProp.setProperty("password", passWord);
+					connProp.setProperty("maxActive","1");
+					connProp.setProperty("initialSize","1");
+					connProp.setProperty("maxIdle", "1");
+					connProp.setProperty("minIdle","1");
+					connProp.setProperty("removeAbandoned","true" );
+					connProp.setProperty("removeAbandonedTimeout","180" );
+				
 					ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(
 							SystemInit.getDBConfig("db.url"),userName ,passWord);
-
+					
 					PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(
 							connectionFactory, null);
 
 					ObjectPool<PoolableConnection> connectionPool = new GenericObjectPool(poolableConnectionFactory);
-
+					
 					poolableConnectionFactory.setPool(connectionPool); 
-
+					
 					PoolingDataSource<PoolableConnection> ds = new PoolingDataSource(connectionPool);
 
 					dataSource = ds;
