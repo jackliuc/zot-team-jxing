@@ -55,7 +55,7 @@ public class DBDataSource {
 					connProp.setProperty("removeAbandonedTimeout","180" );
 				
 					ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(
-							SystemInit.getDBConfig("db.url"),userName ,passWord);
+							SystemInit.getDBConfig("db.url"),connProp);
 					
 					PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(
 							connectionFactory, null);
