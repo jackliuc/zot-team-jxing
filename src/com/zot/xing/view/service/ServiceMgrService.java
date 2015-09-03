@@ -36,6 +36,11 @@ public class ServiceMgrService {
 		workOrderAS.updateWorkOrderEval(order.getWorkOrderId(), String.valueOf(order.getEvalType()), order.getEvalDesc());
 	}
 	
+	public static void showParams()
+	{
+		
+	}
+	
 	private static XingWorkOrderVO cvt2XingWorkOrderVO(XingWorkOrderBO orderBO)
 	{
 		XingWorkOrderVO orderVO = new XingWorkOrderVO();

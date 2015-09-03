@@ -60,6 +60,7 @@ $("#confirmButton").click(function(){
  	dataD.serviceAction = "subscribeResultAction";
  	dataD.subtype = $("#subtype").val();
  	dataD.subtime = $("#ordertime").val();
+ 	alert(dataD.subtime);
 	
 	$.zot.post(dataD,resultCallBack);	
 });

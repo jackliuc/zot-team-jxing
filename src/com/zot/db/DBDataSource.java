@@ -45,7 +45,7 @@ public class DBDataSource {
 				try {
 					Class.forName(SystemInit.getDBConfig("db.driver")).newInstance();
 					Properties connProp = new Properties();
-					connProp.setProperty("username",userName );
+					connProp.setProperty("user",userName);
 					connProp.setProperty("password", passWord);
 					connProp.setProperty("maxActive","1");
 					connProp.setProperty("initialSize","1");

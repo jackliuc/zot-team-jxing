@@ -9,12 +9,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import com.zot.xing.view.subscribe.SubscribeAction;
+
 /**
  * @author jack
  *
  */
 public class JDBCTemplate<T> {
 
+	private static Logger logger = Logger.getLogger(JDBCTemplate.class);
+	
 	/**
 	 * 执行查询语句，返回的值通过ResultSetHandler处理
 	 * 
@@ -42,8 +48,9 @@ public class JDBCTemplate<T> {
 			
 			return rsh.rsHandler(rs);
 			
-		} catch (SQLException e) {
+		} catch (Throwable e) {
 			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		} finally {
 			try {
 				if(rs != null)
@@ -80,8 +87,9 @@ public class JDBCTemplate<T> {
 				} 
 			}
 		    return pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Throwable e) {
 			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		} finally {
 			try {
 				if (pstmt != null) {
