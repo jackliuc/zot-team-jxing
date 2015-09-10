@@ -1,3 +1,5 @@
+<%@page import="com.zot.wechat.msg.Constant"%>
+<%@page import="com.zot.wechat.util.WXAppOpenApi"%>
 <%@page import="com.zot.xing.view.service.XingWorkOrderVO"%>
 <%@page import="com.sun.xml.internal.fastinfoset.algorithm.BuiltInEncodingAlgorithm.WordListener"%>
 <%@page import="com.zot.xing.view.service.XingWorkOrderVO"%>
@@ -18,9 +20,11 @@
 	<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
 	 
 	<% 
-		//String subId = request.getParameter("subId");
-		String subId = "101";
-		List<XingWorkOrderVO> orders = ServiceMgrService.queryOrders(new IdVO(0, subId));
+		String code = request.getParameter("code");
+		WXAppOpenApi api = new WXAppOpenApi(Constant.sCorpID, Constant.sCorpSecret, Constant.sAppID);
+		String userId = api.getUserId(code);
+		//String subId = "101";
+		List<XingWorkOrderVO> orders = ServiceMgrService.queryOrders(new IdVO(0, userId));
 	%>
 	
 	<div data-am-widget="list_news" class="am-list-news am-list-news-default">

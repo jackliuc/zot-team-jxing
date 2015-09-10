@@ -46,7 +46,8 @@
 
 <script type="text/javascript">
 
-$("#subtype").val("<%=request.getParameter("subtype")%>")
+$("#subtype").val("<%=request.getParameter("subtype")%>");
+var code = "<%=request.getParameter("code")%>";
 
 function resultCallBack()
 {
@@ -58,9 +59,9 @@ $("#confirmButton").click(function(){
  	var dataD = new Object();
 		
  	dataD.serviceAction = "subscribeResultAction";
+ 	dataD.code = code;
  	dataD.subtype = $("#subtype").val();
  	dataD.subtime = $("#ordertime").val();
- 	alert(dataD.subtime);
 	
 	$.zot.post(dataD,resultCallBack);	
 });

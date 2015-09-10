@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 
 import com.zot.util.DateAS;
 import com.zot.view.contorler.PrefixService;
+import com.zot.wechat.msg.Constant;
+import com.zot.wechat.util.WXAppOpenApi;
 import com.zot.xing.dao.subscribe.WorkOrderAS;
 import com.zot.xing.dao.subscribe.WorkOrderASImpl;
 import com.zot.xing.dao.subscribe.XingWorkOrderBO;
@@ -27,16 +29,20 @@ public class SubscribeAction implements PrefixService {
 		
 		try
 		{
-			wo.setCust_id("101");  //？？？？？
+			String code = context.get("code");
+			WXAppOpenApi api = new WXAppOpenApi(Constant.sCorpID, Constant.sCorpSecret, Constant.sAppID);
+			String userId = api.getUserId(code);
+			logger.error("code:" + code + "&userId:" + userId);
+			
+			wo.setCust_id(userId); 
 			String subTime = context.get("subtime").replaceAll("T", " ");
 			wo.setOrder_time(DateAS.getSQLTimestampFromString(subTime));
-			wo.setOrder_type(context.get("subtype"));
-			
-			logger.error("time:" + subTime + "&orderType:" + wo.getOrder_type());
+			wo.setOrder_type(context.get("subtype"));			
+			logger.debug("time:" + subTime + "&orderType:" + wo.getOrder_type());
 			
 			workOrderA.addPreSubscribeService(wo);
 			
-			logger.error("Finished.");
+			logger.debug("Finished.");
 		}
 		catch (Exception ex)
 		{

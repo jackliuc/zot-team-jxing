@@ -2,6 +2,9 @@ package com.zot.xing.view.service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.log4j.Logger;
+
 import com.zot.xing.dao.subscribe.ServiceBO;
 import com.zot.xing.dao.subscribe.ServiceUtils;
 import com.zot.xing.dao.subscribe.WorkOrderAS;
@@ -11,6 +14,8 @@ import com.zot.xing.view.common.IdVO;
 import com.zot.xing.view.common.OrderStatus;
 
 public class ServiceMgrService {
+	
+	private static Logger logger = Logger.getLogger(ServiceMgrService.class);
 	
 	public static List<XingWorkOrderVO> queryOrders(IdVO id)
 	{
@@ -36,10 +41,17 @@ public class ServiceMgrService {
 		workOrderAS.updateWorkOrderEval(order.getWorkOrderId(), String.valueOf(order.getEvalType()), order.getEvalDesc());
 	}
 	
-	public static void showParams()
+	/*
+	public static void logRequestParams(HttpServletRequest request)
 	{
-		
+		Enumeration<String> en = request.getParameterNames();
+		while (en.hasMoreElements()) {
+			String elem = en.nextElement();			
+			logger.error("name:" + elem + "|value:" + request.getParameter(elem));		
+			System.out.println("name:" + elem + "|value:" + request.getParameter(elem));	
+		}
 	}
+	*/
 	
 	private static XingWorkOrderVO cvt2XingWorkOrderVO(XingWorkOrderBO orderBO)
 	{
