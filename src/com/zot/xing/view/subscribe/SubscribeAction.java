@@ -4,6 +4,7 @@
 package com.zot.xing.view.subscribe;
 
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 
@@ -34,11 +35,13 @@ public class SubscribeAction implements PrefixService {
 			String userId = api.getUserId(code);
 			logger.error("code:" + code + "&userId:" + userId);
 			
+			if (userId == null) {userId = "101";}//本地调测提供默认值
 			wo.setCust_id(userId); 
 			String subTime = context.get("subtime").replaceAll("T", " ");
 			wo.setOrder_time(DateAS.getSQLTimestampFromString(subTime));
 			wo.setOrder_type(context.get("subtype"));			
 			logger.debug("time:" + subTime + "&orderType:" + wo.getOrder_type());
+			wo.setId(UUID.randomUUID().toString());
 			
 			workOrderA.addPreSubscribeService(wo);
 			

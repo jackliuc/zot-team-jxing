@@ -33,10 +33,13 @@ public class WXAppOpenApi {
 	private String appID = null;
 	
 	private static Map<String, AccessToken> tokenMap = new ConcurrentHashMap<String, AccessToken>();
+	private static Map<String, JsTicket> ticketMap = new ConcurrentHashMap<String, JsTicket>();
+	
 	
 	//微信接口调用url常量
 	private static final String I_GET_TOKEN = "https://qyapi.weixin.qq.com/cgi-bin/gettoken";
 	private static final String I_GET_USERID = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo";
+	private static final String I_GET_TICKET = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket";
 	
 	public WXAppOpenApi(String corpID, String corpSecret, String appID)
 	{
@@ -73,6 +76,50 @@ public class WXAppOpenApi {
 		logger.error("return userId is :" + userId);
 		
 		return userId;
+	}
+	
+	public String getJsTicket()
+	{
+		String key = this.corpID + "|" + this.corpSecret;
+		JsTicket jsTicket = ticketMap.get(key);
+		
+		if (jsTicket == null || jsTicket.isExpire())//首次或已失效，则进行重新获取
+		{
+			String token = getToken();
+			String url = I_GET_TICKET + "?access_token=" + token;		
+			String ret = this.callSimpleGet(url);
+			
+			if (ret != null && ret.trim().length() > 0)
+			{
+				JSONObject jsonObject = JSONObject.parseObject(ret);
+				String errCode = jsonObject.getString("errcode");
+				if ("0".equals(errCode))//成功
+				{
+					long maxExpTime = Long.parseLong(jsonObject.getString("expires_in"));
+					String ret_jsticket = jsonObject.getString("ticket");					
+					jsTicket = new JsTicket(ret_jsticket, maxExpTime);					
+					//缓存ticket
+					ticketMap.put(key, jsTicket);					
+				}
+				else
+				{
+					logger.error("get js ticket failed, message:" + jsonObject.getString("errmsg"));
+				}			
+			}
+		}
+				
+		String ticket = null;
+		if (jsTicket != null)
+		{
+			ticket = jsTicket.getTicket();
+		}
+		else
+		{
+			logger.error("Get js ticket failed, call http get return empty.");
+		}
+		
+		logger.error("return js ticket is :" + ticket);
+		return ticket;
 	}
 	
 	private String getToken()
@@ -216,9 +263,11 @@ public class WXAppOpenApi {
 	
 	public static void main(String[] args) {
 		WXAppOpenApi api = new WXAppOpenApi(Constant.sCorpID, Constant.sCorpSecret, Constant.sAppID);
-		String userId = api.getUserId("69fc12b8406c289290d8a6dd049caaaa");
 		
-		System.out.println(userId);
+		//String userId = api.getUserId("69fc12b8406c289290d8a6dd049caaaa");
+		
+		String ticket = api.getJsTicket();
+		System.out.println(ticket);
 	}
 	
 }
