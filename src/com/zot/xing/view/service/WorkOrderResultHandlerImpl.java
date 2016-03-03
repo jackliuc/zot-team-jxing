@@ -19,12 +19,12 @@ public class WorkOrderResultHandlerImpl extends ResultSetHandler<List<XingWorkOr
 		{
 			order = new XingWorkOrderBO();
 			order.setCust_id(rs.getString("cust_id"));
-			order.setService_time(rs.getDate("service_time"));
-			order.setCreate_time(rs.getDate("create_time"));
-			order.setOver_time(rs.getDate("over_time"));
-			order.setRemind_time(rs.getDate("remind_time"));
+			order.setCreate_time(rs.getTimestamp("create_time"));
+			order.setService_time(rs.getTimestamp("service_time"));			
+			order.setOver_time(rs.getTimestamp("over_time"));
+			order.setRemind_time(rs.getTimestamp("remind_time"));
 			order.setId(rs.getString("id"));
-			order.setOrder_type(String.valueOf(rs.getInt("type")));
+			order.setOrder_type(rs.getString("order_type"));
 			order.setEval_desc_type(rs.getInt("eval_desc_type"));
 			order.setEval_desc(rs.getString("eval_desc"));
 			order.setEval_result(rs.getString("eval_result"));

@@ -14,9 +14,13 @@ public class Constant {
 
 	public static final String sEncodingAESKey = "AImBBgSvuUz0uUDPIRvErMuP0PceSgsmyTWRl1qmrjk";
 	
-	public static final String sCorpID = "wx10a2f3c2019b7ceb";
+	public static final String sCorpID = "wx12a0405d09168ab7"; //简行："wx10a2f3c2019b7ceb";
 	
 	public static final String SERVER_URL = "http://jzot.sinaapp.com/";
+	
+	public static final String sCorpSecret = "mTONX59RBlciCiCbIRGL8-txxrZg3rSZUAxJrjUvnphEQimXOi4e8qNUxyr_pV5I";
+	
+	public static final String sAppID = "1";
 	
 	/**
 	 * wechat消息类型

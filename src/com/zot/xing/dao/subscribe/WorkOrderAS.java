@@ -21,12 +21,12 @@ public interface WorkOrderAS {
 	/**
 	 * 订单状态变更为服务中
 	 */
-	public void updateWorkOrderToGoing();
+	public void updateWorkOrderToGoing(XingWorkOrderBO workOrder);
 	
 	/**
 	 * 订单状态变更为结束
 	 */
-	public void updateWorkOrderToOver();
+	public void updateWorkOrderToOver(XingWorkOrderBO workOrder);
 	
 	/**
 	 * 根据订单号，修改评价类型和评价内容

@@ -4,6 +4,7 @@
 package com.zot.db;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.concurrent.locks.Lock;
@@ -22,8 +23,6 @@ import org.apache.log4j.Logger;
 
 import com.zot.sys.config.SystemInit;
 
-import sun.swing.text.CountingPrintable;
-
 /**
  * @author jack
  *
@@ -37,6 +36,35 @@ public class DBDataSource {
 	private static Logger logger = Logger.getLogger(DBDataSource.class);
 
 	public static Connection getConnection() throws SQLException {
+
+		//return getPooledConnection();
+		
+		return getDirectConnection();		
+	}
+	
+	private static Connection getDirectConnection() throws SQLException
+	{
+		Connection conn = null;
+		try 
+		{
+			String userName = SystemInit.getDBConfig("db.username");
+			String passWord = SystemInit.getDBConfig("db.password");
+			
+			Class.forName(SystemInit.getDBConfig("db.driver"));
+			
+			conn = DriverManager.getConnection(SystemInit.getDBConfig("db.url"), userName, passWord);			
+		}
+		catch (ClassNotFoundException ex)
+		{
+			ex.printStackTrace();
+			logger.error(ex.getMessage(), ex);
+		}
+		
+		return conn;	
+	}
+	
+	private static Connection getPooledConnection() throws SQLException
+	{
 		if (dataSource == null) {
 			lock.lock();
 			if (dataSource == null) {
@@ -45,7 +73,7 @@ public class DBDataSource {
 				try {
 					Class.forName(SystemInit.getDBConfig("db.driver")).newInstance();
 					Properties connProp = new Properties();
-					connProp.setProperty("username",userName );
+					connProp.setProperty("user",userName);
 					connProp.setProperty("password", passWord);
 					connProp.setProperty("maxActive","1");
 					connProp.setProperty("initialSize","1");
@@ -77,6 +105,7 @@ public class DBDataSource {
 				}
 			}
 		}
+		
 		return dataSource.getConnection();
 	}
 

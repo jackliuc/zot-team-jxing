@@ -3,23 +3,25 @@ package com.zot.xing.view.service;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
+import org.apache.log4j.Logger;
+
 import com.zot.view.contorler.PrefixService;
+import com.zot.wechat.msg.Constant;
+import com.zot.wechat.util.WXAppOpenApi;
 import com.zot.xing.view.common.IdVO;
 
 public class ServiceQueryAction implements PrefixService{
-
-	public String action(Map<String,String> context) {
-		//String subtype = (String)getValue("subtype");
+	private static Logger logger = Logger.getLogger(ServiceQueryAction.class);
+	
+	public List<XingWorkOrderVO> action(Map<String,String> context) {
+		String code = context.get("code");
+		WXAppOpenApi api = new WXAppOpenApi(Constant.sCorpID, Constant.sCorpSecret, Constant.sAppID);
+		String userId = api.getUserId(code);
+		logger.error("code:" + code + "&userId:" + userId);		
 		
-		IdVO id = new IdVO();
-		id.setIdType(1);
-		id.setId("101");
+		if (userId == null) {userId = "101";}//本地调测提供默认值
+		List<XingWorkOrderVO> orders = ServiceMgrService.queryOrders(new IdVO(0, userId));
 		
-		List<XingWorkOrderVO> services = ServiceMgrService.queryOrders(id);
-		
-		String jsonstr = JSON.toJSONString(services);
-		
-		return jsonstr;
+		return orders;
 	}
 }

@@ -42,15 +42,28 @@
 <div id="resultShow" class="am-u-sm-12  am-text-center" style="display:none">
                                                         预约成功，请凭借微信条形码到店服务
 </div>
+<div id="resultCode" class="am-u-sm-12  am-text-center" style="display:none">
+
+</div>
+
 <%@include file="/assets/footer.jsp" %>
 
 <script type="text/javascript">
 
-$("#subtype").val("<%=request.getParameter("subtype")%>")
+$("#subtype").val("<%=request.getParameter("subtype")%>");
+var code = "<%=request.getParameter("code")%>";
 
-function resultCallBack()
+function resultCallBack(result)
 {
+	var v_qrcode = result.id ? result.id : 0;
+	$("#resultCode").qrcode({
+		width:128,
+		height:128,
+		correctLevel:0,
+		text:v_qrcode
+	});
 	$("#resultShow").show();
+	$("#resultCode").show();
 }
 
 $("#confirmButton").click(function(){
@@ -58,6 +71,7 @@ $("#confirmButton").click(function(){
  	var dataD = new Object();
 		
  	dataD.serviceAction = "subscribeResultAction";
+ 	dataD.code = code;
  	dataD.subtype = $("#subtype").val();
  	dataD.subtime = $("#ordertime").val();
 	

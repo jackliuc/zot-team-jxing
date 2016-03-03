@@ -8,11 +8,19 @@ package com.zot.util;
  * 
  */
 public class ZOTException extends RuntimeException {
-	public ZOTException() {
 
+	private static final long serialVersionUID = 1L;
+
+	public ZOTException() {
+		super();
+	}
+	
+	public ZOTException(String message)
+	{
+		super(message);
 	}
 
 	public ZOTException(Throwable e) {
-
+		super(e);
 	}
 }

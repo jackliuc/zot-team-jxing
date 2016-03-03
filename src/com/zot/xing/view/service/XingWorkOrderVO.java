@@ -9,7 +9,9 @@ public class XingWorkOrderVO {
 	private String workOrderId;//订单号
 	private int workOrderType;//订单类型，对应服务定义表中的serviceId
 	private String serviceName;//服务名称
-	private Date servieTime;//服务时间
+	private String serviceImg;//服务名称对应的图片
+	private Date serviceTime;//服务时间
+	private String disCreateTime;//创建时间
 	private String carNo;//车牌号
 	private int evalType;//评价类型
 	private String evalDesc;//评价内容
@@ -17,6 +19,9 @@ public class XingWorkOrderVO {
 	private String servicePerson;//服务人员
 	private OrderStatus status;//订单状态
 	private String statusDes;//订单状态描述，直接国际化的显示，如正在进行，已完成等
+	private String disServiceTime;//界面展现的格式化服务时间
+	private int isDisplayEval = 0;//是否显示评价：1-显示；0-不显示
+	private String disEvalType;//显示评价类型
 
 	public String getWorkOrderId() {
 		return workOrderId;
@@ -36,11 +41,11 @@ public class XingWorkOrderVO {
 	public void setServiceName(String serviceName) {
 		this.serviceName = serviceName;
 	}
-	public Date getServieTime() {
-		return servieTime;
+	public Date getServiceTime() {
+		return serviceTime;
 	}
-	public void setServieTime(Date servieTime) {
-		this.servieTime = servieTime;
+	public void setServiceTime(Date serviceTime) {
+		this.serviceTime = serviceTime;
 	}
 	public String getCarNo() {
 		return carNo;
@@ -84,5 +89,34 @@ public class XingWorkOrderVO {
 	public void setStatusDes(String statusDes) {
 		this.statusDes = statusDes;
 	}
-	
+	public String getDisServiceTime() {
+		return disServiceTime;
+	}
+	public void setDisServiceTime(String disServiceTime) {
+		this.disServiceTime = disServiceTime;
+	}
+	public String getServiceImg() {
+		return serviceImg;
+	}
+	public void setServiceImg(String serviceImg) {
+		this.serviceImg = serviceImg;
+	}	
+	public String getDisCreateTime() {
+		return disCreateTime;
+	}
+	public void setDisCreateTime(String disCreateTime) {
+		this.disCreateTime = disCreateTime;
+	}
+	public int getIsDisplayEval() {
+		return isDisplayEval;
+	}
+	public void setIsDisplayEval(int isDisplayEval) {
+		this.isDisplayEval = isDisplayEval;
+	}
+	public String getDisEvalType() {
+		return disEvalType;
+	}
+	public void setDisEvalType(String disEvalType) {
+		this.disEvalType = disEvalType;
+	}
 }

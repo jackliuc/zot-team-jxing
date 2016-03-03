@@ -1,3 +1,5 @@
+<%@page import="com.zot.wechat.msg.Constant"%>
+<%@page import="com.zot.wechat.util.WXAppOpenApi"%>
 <%@page import="com.zot.xing.view.service.XingWorkOrderVO"%>
 <%@page import="com.sun.xml.internal.fastinfoset.algorithm.BuiltInEncodingAlgorithm.WordListener"%>
 <%@page import="com.zot.xing.view.service.XingWorkOrderVO"%>
@@ -16,71 +18,66 @@
       <li><a href="#" class="am-text-danger"><span class="am-icon-btn am-icon-recycle"></span><br/>已服务数<br/>80082</a></li>
     </ul>
 	<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
-	 
-	<% 
-		//String subId = request.getParameter("subId");
-		String subId = "101";
-		List<XingWorkOrderVO> orders = ServiceMgrService.queryOrders(new IdVO(0, subId));
-	%>
-	
-	<div data-am-widget="list_news" class="am-list-news am-list-news-default">
-	
-	  <div class="am-list-news-hd am-cf">
-	  
+	 				
+	<div data-am-widget="list_news" class="am-list-news am-list-news-default">	
+	  <div class="am-list-news-hd am-cf">	  
 	    <a href="##" class="">
 	      <h2>订单列表</h2>
 	      <span class="am-list-news-more am-fr">更多 &raquo;</span>
 	    </a>
 	  </div>
-	  <div class="am-list-news-bd">
-	    <ul class="am-list">
-	      
-	      <% 
-	      	if (orders != null)
-	      	{
-	      		for (XingWorkOrderVO order : orders)
-	      		{
-	      			out.print("<li class=\"am-g am-list-item-dated\">");
-	      			out.print("<span class=\"am-list-item-hd \">");
-	      			out.print("订单状态：" + order.getStatus());
-	      			out.print("</span>");
-	      			out.print("<span class=\"am-list-news-more am-fr\">");
-	      			out.print("订单号：" + order.getWorkOrderId());
-	      			out.print("</span></li>");
-	      			
-	      			out.print("<li class=\"am-g am-list-item-dated\">");
-	      			out.print("<span class=\"am-list-item-hd \">");
-	      			out.print("服务项目：" + order.getServiceName());
-	      			out.print("</span>");
-	      			out.print("<span class=\"am-list-news-more am-fr\">");
-	      			out.print("服务时间：");
-	      			if (order.getServieTime() != null)
-	      			{
-	      				out.print(order.getServieTime());	
-	      			}     			
-	      			out.print("</span></li>");	
-	      			
-	      			out.print("<li class=\"am-g am-list-item-dated\">");
-	      			out.print("<span class=\"am-list-item-hd \">");
-	      			out.print("服务人：" + order.getServicePerson());
-	      			out.print("</span>");
-	      			
-	      			if(order.getStatus() == OrderStatus.FINISHED)
-	      			{
-	      				out.print("<a href=\"complain-service.jsp?workOrderId=");
-	      				out.print(order.getWorkOrderId());
-	      				out.print("\" class=\"am-list-news-more am-fr\">");      			
-		      			out.print("我要评价</a>");	
-	      			}
-	      			out.print("</li><br>");
-	      		}
-	      	}
-	      %>	      
-	    </ul>
+	  
+	  <div id="table_div">
 	  </div>
 	</div>
 	
   </div>
 <%@include file="/assets/footer.jsp" %>
+
+<script type="text/javascript">
+	var code = "<%=request.getParameter("code")%>";
+	var dataD = new Object();
+
+	dataD.serviceAction = "serviceQueryAction";
+	dataD.code = code;
+	$.zot.post(dataD,dealOrders);	
+
+	function dealOrders(orders)
+	{
+		var innerHtml = "";
+		if (orders)
+		{
+			for(var p in orders)
+			{
+				innerHtml = innerHtml + getOrderHtml(orders[p]);	
+			}
+		}
+		else
+		{
+			innerHtml = "没有订单噢";	
+		}
+		document.getElementById("table_div").innerHTML = innerHtml;
+	}
+	
+	function getOrderHtml(order)
+	{
+		var tblHtml = "<hr data-am-widget=\"divider\" class=\"am-divider am-divider-default\"/><table>";
+		tblHtml = tblHtml + "<tr><td>" + order.statusDes + "</td><td>" 
+					+ order.disCreateTime + "</td></tr>"; 					
+		tblHtml = tblHtml + "<tr><td>订单号：" + order.workOrderId + "</td>" 
+							+"<td><a href='showQrcode.jsp?id=" + order.workOrderId + "'>二维码</a>";
+		tblHtml = tblHtml + "<tr><td>" + order.serviceName + "</td><td><img width='100' height='120' src='" 
+					+ order.serviceImg + "' /></td></tr>";
+		if (order.isDisplayEval == 1)
+		{
+			tblHtml = tblHtml + "<tr><td cols=2><a href='complain-service.jsp?workOrderId=" + order.workOrderId + "'>我要评价</a>";
+			tblHtml = tblHtml + "<tr><td>" + order.disEvalType + "</td><td>" + order.evalDesc + "</td><td></tr>"; 			
+		}
+		tblHtml = tblHtml + "</table>";
+		
+		return tblHtml;
+	}
+</script>
+
 </body>
 </html>
