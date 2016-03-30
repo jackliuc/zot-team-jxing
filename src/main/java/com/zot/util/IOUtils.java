@@ -4,7 +4,7 @@ import java.io.Closeable;
 
 public class IOUtils {
 
-	public void closeQuetly(Closeable... forCloses) {
+	public static void closeQuietly(Closeable... forCloses) {
 		if (null != forCloses && forCloses.length > 0) {
 			for (Closeable forClose : forCloses) {
 				try {

@@ -11,8 +11,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 
+import com.zot.util.IOUtils;
 import com.zot.util.ZOTException;
 
 /**
