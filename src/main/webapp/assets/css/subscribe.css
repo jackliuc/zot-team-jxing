@@ -1,0 +1,50 @@
+@CHARSET "UTF-8";
+
+.subscribe-form {
+	width: 270px;
+    margin: 0 auto;
+}
+
+.subscribe-form .am-selected {
+	width: 100%;
+}
+
+/* .subscribe-form .am-selected-btn {
+	padding-left: 28px;
+} */
+
+.subscribe-form .am-form-error .am-selected-btn {
+	border-color: #dd514c!important;
+}
+
+.subscribe-form .am-selected-icon.am-icon-caret-down {
+	left: inherit;
+	right: .5em;
+}
+
+.subscribe-form label {
+	font-weight: normal;
+}
+
+.subscribe-form .am-form-group .am-radio.first-car{
+	margin-top: 0;
+}
+
+.other-car-input {
+	margin: 0 0 15px;
+}
+
+#confirm-submit {
+	width: 280px;
+	margin-left: -140px;
+}
+
+#confirm-submit .am-modal-bd .car-number {
+	font-size: 18px;
+	color: #999;
+}
+
+#confirm-submit .am-modal-bd .service-type {
+	font-size: 24px;
+	color: #ff0606;
+}

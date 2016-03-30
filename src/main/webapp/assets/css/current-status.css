@@ -1,0 +1,32 @@
+@CHARSET "UTF-8";
+.current-status-container {
+  position: relative;
+  text-align: center;
+  margin: 24px 0 20px;
+}
+
+.current-status-content>li .label {
+      color: #333;
+      padding: 0;
+ }
+ 
+.current-status-content>li .value {
+      font-family: Arial;
+      font-size: 24px;
+      font-weight: 400;
+      color: #5eb95e;
+}
+
+.current-status-content>li .value .unit {
+  color: #999;
+  font-size:  12px;
+  padding-left: 2px;
+}
+
+.current-status-content  li.in-queue .value{
+      color: #dd514c;
+}
+
+.current-status-content  li.finished .value {
+      color: #f37b1d;
+}

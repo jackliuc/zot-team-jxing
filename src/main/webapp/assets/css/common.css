@@ -1,0 +1,50 @@
+@CHARSET "UTF-8";
+
+.loading {
+	
+}
+
+.icon {
+	background: url('../image/sprites.png') no-repeat;
+	background-size: 172px auto;
+	box-sizing: border-box;
+	display: inline-block;
+}
+
+.icon.icon-subscribed {
+	background-position: 0 0;
+	width: 40px;
+	height: 40px;
+}
+
+.icon.icon-finished {
+	background-position: 0 0;
+	width: 40px;
+	height: 40px;
+}
+
+.icon.icon-average-time {
+	width: 48px;
+	height: 48px;
+	background-position: -63px -67px;
+}
+/* box-sizing: border-box;
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+    line-height: 48px;
+    border-radius: 50%;
+    background-color: #eee;
+    color: #555; */
+.icon.icon-finished-count {
+	width: 48px;
+	height: 48px;
+	background-position: -124px -71px;
+}
+
+.icon.icon-waiting-count {
+	width: 48px;
+	height: 48px;
+	background-position: 0 -63px
+}

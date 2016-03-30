@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+.subscription-info {
+	margin: 25px 0 0;
+	font-size: 16px;
+	color: #333;
+}
+
+.subscription-info > div {
+	padding: 5px 0;
+}
+
+.subscription-info .latin {
+	font-family: Arial;
+}
+
+.subscription-info .strong {
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.subscription-info .qcode {
+	margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+}
