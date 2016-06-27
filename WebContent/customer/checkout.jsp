@@ -105,6 +105,7 @@
    <script type="text/javascript">
    $("#qryInfoBtn").click(function(){
 	 	  //根据车牌号找寻客户信息
+	 	  //debugger;
 		  var carno = $("#carno").val();
 		  if (!carno || carno.length != 7)
 		  {
@@ -181,4 +182,13 @@
 	 		}
 		});	
    });
+	
+   $(document).ready(function(){
+	   //debugger;
+	   var g_carno = $("#global_carno").val();
+	   if (g_carno && g_carno.length == 7){
+		   $("#carno").val(g_carno);
+		   $("#qryInfoBtn").trigger("click");
+	   }
+	});
    </script>

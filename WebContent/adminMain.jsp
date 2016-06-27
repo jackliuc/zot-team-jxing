@@ -34,16 +34,17 @@ $(document).ready(function(){
 	   });
   
   $("#checkout").click(function(){
+	  	$("#global_carno").val("");
 	  	$("#optContent").load("customer/checkout.jsp");
 	   });
   
   $("#customerinfo").click(function(){
-	  	$("#optContent").load("customer/qrybooking.jsp");
+	  	$("#optContent").load("customer/qryworkorders.jsp");
 	   });
   
   //店面专区
   $("#costdetail").click(function(){
-	  	$("#optContent").load("shop/costdetail.jsp");
+	  	$("#optContent").load("shop/costmgr.jsp");
 	   });
   
   
@@ -113,6 +114,7 @@ $(document).ready(function(){
   <!-- sidebar end -->
 
   <!-- content start -->
+  <input type="hidden" id="global_carno" value="" />
   <div id="optContent" class="admin-content" style="overflow-y :auto">
         <%@include file="analyse/storeStatistic.jsp" %>
   </div>

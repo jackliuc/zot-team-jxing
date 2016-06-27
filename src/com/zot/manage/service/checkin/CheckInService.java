@@ -56,7 +56,7 @@ public class CheckInService {
 		{
 			if (!StringUtils.isEmpty(customerInfo.getServiceType()))
 			{
-				SubscribeVO subscribeVO = getSubscriberVO(customerInfo.getCarno(), customerInfo.getServiceType());
+				SubscribeVO subscribeVO = getSubscriberVO(customerInfo);
 				WorkOrderService.addWorkOrder(subscribeVO, customer.getCustId());
 			}
 		}
@@ -110,13 +110,14 @@ public class CheckInService {
 		return customerInfoVO;
 	}
 	
-	private static SubscribeVO getSubscriberVO(String carno, String serviceType)
+	private static SubscribeVO getSubscriberVO(CustomerInfoVO customerInfoVO)
 	{
 		SubscribeVO subscriberVO = new SubscribeVO();
-		subscriberVO.setCarno(carno);
-		subscriberVO.setOrderType(serviceType);
+		subscriberVO.setCarno(customerInfoVO.getCarno());
+		subscriberVO.setOrderType(customerInfoVO.getServiceType());
 		subscriberVO.setOrderTime(DateAS.getCurrentDateYHM());
 		subscriberVO.setArrived("Y");
+		subscriberVO.setPhoneno(customerInfoVO.getPhoneno());
 		
 		return subscriberVO;
 	}

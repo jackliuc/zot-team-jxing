@@ -12,6 +12,8 @@ import java.util.List;
 import com.zot.db.JDBCTemplate;
 import com.zot.db.ResultSetHandler;
 import com.zot.util.DateAS;
+import com.zot.util.StringUtils;
+import com.zot.wechat.msg.Constant;
 
 
 /**
@@ -57,9 +59,14 @@ public class WorkOrderASImpl implements WorkOrderAS {
 			+ " where order_id = ?";
 	
 	private static final String DAILY_CNT_SQL = "select o.order_id, o.create_time, d.over_time,"
-			+ " d.order_type, o.paytype,o.amount"
+			+ " d.order_type, o.paytype,o.amount, o.order_time, o.phoneno, o.carno, o.status, o.cust_id"
 			+ " from t_zot_work_order o, t_zot_work_order_detail d where o.order_id = d.order_id"
 			+ " and (d.over_time > ? and d.over_time <= ?)";
+	
+	private static final String QRY_ENABLE_WORK_ORDER_SQL = "select o.order_id, o.create_time, d.over_time,"
+			+ " d.order_type, o.paytype,o.amount, o.order_time, o.phoneno, o.carno, o.status, o.cust_id"
+			+ " from t_zot_work_order o, t_zot_work_order_detail d where o.order_id = d.order_id "
+			+ Constant.SQL_COND + " order by o.create_time desc limit 10";
 	
 	/* (non-Javadoc)
 	 * @see com.zot.xing.dao.subscribe.WorkOrderAS#addPreSubscribeService(com.zot.xing.dao.subscribe.XingWorkOrderBO)
@@ -443,6 +450,54 @@ public class WorkOrderASImpl implements WorkOrderAS {
 		return orders;
 	}
 	
+	@Override
+	public List<EnableWorkOrderBO> queryOrdersByCondition(WorkOrderBO workOrderCond) 
+	{
+		JDBCTemplate<List<EnableWorkOrderBO>> jt = new JDBCTemplate<List<EnableWorkOrderBO>>();
+		
+		//构造查询的where条件和参数
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer buf = new StringBuffer();
+		if (!StringUtils.isEmpty(workOrderCond.getStatus()))
+		{
+			buf.append(" and o.status = ?");
+			params.add(workOrderCond.getStatus());
+		}
+		if (!StringUtils.isEmpty(workOrderCond.getPhoneno()))
+		{
+			buf.append(" and o.phoneno = ?");
+			params.add(workOrderCond.getPhoneno());
+		}
+		if (!StringUtils.isEmpty(workOrderCond.getCarno()))
+		{
+			buf.append(" and o.carno = ?");
+			params.add(workOrderCond.getCarno());
+		}
+		
+		String qrySQL = QRY_ENABLE_WORK_ORDER_SQL.replaceAll(Constant.SQL_COND, buf.toString());
+
+		List<EnableWorkOrderBO> orders = jt.query(qrySQL, params, 
+				new ResultSetHandler<List<EnableWorkOrderBO>>()
+				{
+					@Override
+					public List<EnableWorkOrderBO> rsHandler(ResultSet rs) throws SQLException {
+						List<EnableWorkOrderBO> orders = new ArrayList<EnableWorkOrderBO>();
+						EnableWorkOrderBO order = null;
+						
+						while (rs.next())
+						{
+							order = cvt2EnableWorkOrder(rs);
+		
+							orders.add(order);
+						}
+						
+						return orders;
+					}
+				});
+		
+		return orders;
+	}
+
 	private EnableWorkOrderBO cvt2EnableWorkOrder(ResultSet rs) throws SQLException
 	{
 		EnableWorkOrderBO enableWorkOrder = new EnableWorkOrderBO();
@@ -453,6 +508,12 @@ public class WorkOrderASImpl implements WorkOrderAS {
 		enableWorkOrder.setOrderType(rs.getString("order_type"));
 		enableWorkOrder.setPayType(rs.getString("paytype"));
 		enableWorkOrder.setAmount(rs.getFloat("amount"));
+		
+		enableWorkOrder.setOrderTime(rs.getTimestamp("order_time"));	
+		enableWorkOrder.setPhoneno(rs.getString("phoneno"));
+		enableWorkOrder.setCarno(rs.getString("carno"));
+		enableWorkOrder.setStatus(rs.getString("status"));
+		enableWorkOrder.setCustId(rs.getString("cust_id"));
 		
 		return enableWorkOrder;
 	}

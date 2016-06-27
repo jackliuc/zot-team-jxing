@@ -16,6 +16,7 @@
             <select id="statusSel">
               <option value="-1">所有</option>
             	<option value="1" selected>排队</option>
+            	<option value="4">待评价</option>
             	<option value="6">已取消</option>
             </select>
           </div>
@@ -92,7 +93,7 @@
 	 	}
 		
 		var serviceD = new Object();
-		serviceD.serviceAction = "qryBookingOrdersAction";
+		serviceD.serviceAction = "qryWorkOrdersAction";
 	 	serviceD.status = status;
 	 	if (phoneno && phoneno.length == 11)
 	 	{
@@ -155,9 +156,14 @@
 		arry.push("</td><td>");
 		if (order.status == 1)
 		{
-			arry.push("<div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\"><button onclick=\"cancelOrder('");
+			arry.push("<div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">");
+			arry.push("<button onclick=\"go2checkout('");
+			arry.push(order.carNo);
+			arry.push("')\" class=\"am-btn am-btn-default am-btn-xs am-text-secondary \"><span class=\"am-icon-pencil-square-o\"></span>结账</button>");
+			arry.push("<button onclick=\"cancelOrder('");
 			arry.push(order.workOrderId);
-			arry.push("')\" class=\"am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only\"><span class=\"am-icon-trash-o\"></span>取消预约</button></div></div>");
+			arry.push("')\" class=\"am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only\"><span class=\"am-icon-trash-o\"></span>取消预约</button>");
+			arry.push("</div></div>");
 		}
 		arry.push("</td></tr>");
 
@@ -182,5 +188,12 @@
 				alertMsg('取消预约失败，请稍后再试');	
 			}
 		});	
+	}
+	
+	function go2checkout(carno)
+	{
+		//将需要传递的参数值，放到主框架页面adminMain.jsp中
+		$("#global_carno").val(carno);
+		$("#optContent").load("customer/checkout.jsp");
 	}
 </script>

@@ -122,4 +122,10 @@ public interface WorkOrderAS {
 	 * @return
 	 */
 	public List<EnableWorkOrderBO> queryOrdersByDate(String beginDate, String endDate);
+	
+	/**
+	 * 根据特定条件查询增强型订单列表
+	 * @return
+	 */
+	public List<EnableWorkOrderBO> queryOrdersByCondition(WorkOrderBO workOrderCond);
 }

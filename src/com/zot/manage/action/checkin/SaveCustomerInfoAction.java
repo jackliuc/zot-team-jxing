@@ -13,8 +13,8 @@ public class SaveCustomerInfoAction implements PrefixService {
 	 * @see com.zot.view.contorler.PrefixService#action(java.util.Map)
 	 */
 	@Override
-	public Object action(Map<String, String> context) {
-		
+	public Object action(Map<String, String> context) 
+	{
 		try
 		{
 			CustomerInfoVO customerInfoVO = getCustomerInfo(context);

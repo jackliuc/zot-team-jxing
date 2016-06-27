@@ -33,16 +33,24 @@ DROP TABLE t_zot_employ;
 CREATE TABLE IF NOT EXISTS `t_zot_employ` (
   `employ_id` varchar(26) NOT NULL,
   `employ_name` varchar(128) NOT NULL,
+  -- 员工类型： 1:店长;2:财务;3:接待；4：普通
+  `employ_type` char(1) NOT NULL,
   `create_time` timestamp NULL DEFAULT NULL,
-  `phoneno` varchar(128) NOT NULL,
-  `wechatno` bigint(20) NOT NULL,
+  `phoneno` varchar(20) NOT NULL,
+  `wechatno` varchar(52),
   `super_employ_id` varchar(26) NOT NULL,
+  -- 性别： 1:男;2:女
   `sex` char(1) NOT NULL,
   `remark` varchar(512) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `t_zot_employ`
   ADD PRIMARY KEY (`employ_id`);
+  
+DELETE FROM  t_zot_employ;
+INSERT INTO `t_zot_employ` (`employ_id`, `employ_name`, `employ_type`, `phoneno`, `super_employ_id`, `sex`) VALUES
+('600000001', '李金龙', '1', '189', '0', 1),
+('600000002', '陈雪桃', '3', '189', '600000001', 2);
 
 -- --------------------------------------------------------
 
@@ -74,7 +82,8 @@ INSERT INTO `t_zot_service` (`service_id`, `service_name`, `service_des`, `cost_
 ('10003', '美容', '', 60, 1, 0, 129),
 ('10006', '喷漆', '', 120, 1, 0, 199),
 ('10008', '保养', '', 30, 1, 0, 299),
-('18001', '充值', '', 10, 1, 0, 500);
+('18001', '充值', '', 10, 1, 0, 500),
+('19001', '保险', '', 10, 1, 0, 500);
 
 -- --------------------------------------------------------
 
@@ -177,10 +186,24 @@ CREATE TABLE IF NOT EXISTS `t_zot_car` (
 ALTER TABLE `t_zot_car`
   ADD PRIMARY KEY (`carno`);
   
+DROP TABLE T_ZOT_COST_BAL;
+CREATE TABLE IF NOT EXISTS `T_ZOT_COST_BAL`
+(
+	-- 消费虚拟卡号
+	`COST_CAR_NO` VARCHAR(30) NOT NULL PRIMARY KEY,
+	-- 消费虚拟卡余额
+	`COST_BALANCE` FLOAT(10,1),
+	-- 最近消费时间
+	`LAST_UPDATE_DATE` TIMESTAMP,
+	-- 备注说明
+	`REMARK` VARCHAR(512) 
+);
+
 DROP TABLE T_ZOT_COST;
 CREATE TABLE IF NOT EXISTS `T_ZOT_COST`
 (
 	`COST_ID` VARCHAR(50) NOT NULL PRIMARY KEY,
+	`COST_CAR_NO` VARCHAR(30),
 	`CREATE_TIME` TIMESTAMP,
 	`COST_TIME` TIMESTAMP,
 	-- 0：支出，1：收入
@@ -195,5 +218,8 @@ CREATE TABLE IF NOT EXISTS `T_ZOT_COST`
 	-- 备注说明
 	`REMARK` VARCHAR(512) 
 );
+
+ALTER TABLE `T_ZOT_COST` 
+  ADD INDEX cost_index_costtime ( `COST_TIME`);
 
 

@@ -79,7 +79,7 @@ public class Constant {
 		{
 			put(ORDER_WAITING, "排队");
 			put(ORDER_SERVING, "服务");
-			put(ORDER_EVAING, "评价");
+			put(ORDER_EVAING, "待评价");
 			put(ORDER_CLOSED, "关闭");
 			put(ORDER_CANCEL, "已取消");
 		}
@@ -132,4 +132,8 @@ public class Constant {
 			put(PAY_MEM_CARD, "卡扣");
 		}
 	};
+	
+	public static final String COST_CAR_NO = "C000001";
+	
+	public static final String SQL_COND = "<%SQL_COND%>";
 }

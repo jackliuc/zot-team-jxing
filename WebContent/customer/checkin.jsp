@@ -121,6 +121,9 @@
 		      <label class="am-radio inline">
 		        <input name="serviceType" type="radio" value="18001">充值
 		      </label>
+		      <label class="am-radio inline">
+		        <input name="serviceType" type="radio" value="19001">保险
+		      </label>
 		  </div>
         </div>
 

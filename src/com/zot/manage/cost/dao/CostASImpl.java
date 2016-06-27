@@ -2,10 +2,7 @@ package com.zot.manage.cost.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.zot.db.JDBCTemplate;
@@ -15,28 +12,20 @@ import com.zot.util.IdGen;
 
 public class CostASImpl implements CostAS {
 	
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private static final String ADD_COST = "INSERT INTO t_zot_cost(COST_ID,COST_CAR_NO,CREATE_TIME,COST_TIME"
+			+ "COST_TYPE,COST_SUBTYPE,COST_AMOUNT,COST_OPERATOR,BALANCE,REMARK) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
-	private static String formatDate(Date date) {
-		return dateFormat.format(date);
-	}
+	private static final String UPDATE_COST = "UPDATE t_zot_cost SET cost_type=?, cost_subtype=?, remark=?"
+			+ ", cost_amount=?, cost_operator=?, cost_time=? where cost_id=?";
 	
-	private static Date parseDate(String date) {
-		try {
-			return dateFormat.parse(date);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+	private static final String QRY_COST =  "select * from t_zot_cost order by cost_time desc";
 	
 	@Override
 	public List<Cost> listCost(Cost c) {
 		JDBCTemplate<Cost> sqlTemplate = new JDBCTemplate<Cost>();
 		
-		
 		final List<Cost> result = new ArrayList<>();
-		sqlTemplate.query("select * from t_zot_cost", null, new ResultSetHandler<Cost>(){
+		sqlTemplate.query(QRY_COST, null, new ResultSetHandler<Cost>(){
 
 			@Override
 			public Cost rsHandler(ResultSet rs) throws SQLException {
@@ -46,10 +35,11 @@ public class CostASImpl implements CostAS {
 					cost.setCostId(rs.getString("cost_id"));
 					cost.setCostOperator(rs.getString("cost_operator"));
 					cost.setCostSubType(rs.getString("cost_subtype"));
-					cost.setCostTime(formatDate(rs.getDate("cost_time")));
+					cost.setCostTime(DateAS.convertDate2Str(rs.getDate("cost_time"),"yyyy-MM-dd"));
 					cost.setCostType(rs.getString("cost_type"));
 					cost.setCreateTime(DateAS.convertDate2Str(rs.getDate("create_time")));
 					cost.setRemark(rs.getString("remark"));
+					cost.setCostCarNo(rs.getString("cost_car_no"));
 					
 					result.add(cost);
 				}
@@ -67,14 +57,17 @@ public class CostASImpl implements CostAS {
 		List<Object> params = new ArrayList<Object>();
 		String costId = IdGen.genCostId();
 		params.add(costId);
+		params.add(c.getCostCarNo());
+		params.add(DateAS.getCurrentSQLTimestamp());
+		params.add(DateAS.getDateFromString(c.getCostTime(),"yyyy-MM-dd"));
 		params.add(c.getCostType());
 		params.add(c.getCostSubType());
-		params.add(c.getRemark());
 		params.add(c.getCostAmount());
 		params.add(c.getCostOperator());
-		params.add(parseDate(c.getCostTime()));
-		params.add(DateAS.getCurrentSQLTimestamp());
-		sqlTemplate.execute("INSERT INTO t_zot_cost VALUES (?, ?, ?, ?, ?, ?, ?, ?)", params);
+		params.add(c.getCostBalance());
+		params.add(c.getRemark());
+
+		sqlTemplate.execute(ADD_COST, params);
 		
 		c.setCostId(costId);
 		return c;
@@ -89,9 +82,9 @@ public class CostASImpl implements CostAS {
 		params.add(c.getRemark());
 		params.add(c.getCostAmount());
 		params.add(c.getCostOperator());
-		params.add(parseDate(c.getCostTime()));
+		params.add(DateAS.getDateFromString(c.getCostTime(),"yyyy-MM-dd"));
 		params.add(c.getCostId());
-		sqlTemplate.execute("UPDATE t_zot_cost SET cost_type=?, cost_subtype=?, remark=?, cost_amount=?, cost_operator=?, cost_time=? where cost_id=?", params);
+		sqlTemplate.execute(UPDATE_COST, params);
 		
 		return c;
 	}

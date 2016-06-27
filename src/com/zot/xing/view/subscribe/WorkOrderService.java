@@ -56,6 +56,48 @@ public class WorkOrderService {
 	}
 	
 	/**
+	 * 根据条件查询订单对象，不仅仅为预约和已取消两种状态
+	 * @param status
+	 * @param phoneno
+	 * @param carno
+	 * @return
+	 */
+	public static List<WorkOrderVO> qryWorkOrders(String status, String phoneno, String carno)
+	{
+		//构造查询对象
+		WorkOrderBO workOrderCond = new WorkOrderBO();
+		if (!StringUtils.isEmpty(status)
+			&& !"-1".equals(status))
+		{
+			workOrderCond.setStatus(status);
+		}
+		if (!StringUtils.isEmpty(phoneno))
+		{
+			workOrderCond.setPhoneno(phoneno);
+		}
+		if (!StringUtils.isEmpty(carno))
+		{
+			workOrderCond.setCarno(carno);
+		}
+		
+		//查询并构造返回VO对象列表
+		WorkOrderAS workOrderAS = new WorkOrderASImpl();
+		List<EnableWorkOrderBO> enableOrders = workOrderAS.queryOrdersByCondition(workOrderCond);
+		
+		List<WorkOrderVO> orderVOs = new ArrayList<WorkOrderVO>();
+		if (enableOrders != null)
+		{
+			for (WorkOrderBO order : enableOrders)
+			{				
+				//将汇总和明细订单，转化为适合界面展现的订单VO对象
+				orderVOs.add(cvt2WorkOrderVO(order));
+			}	
+		}
+		
+		return orderVOs;
+	}
+	
+	/**
 	 * 查询预约或已取消的订单
 	 * @param status
 	 * @param phoneno
@@ -614,9 +656,11 @@ public class WorkOrderService {
 		orderVO.setCustId(orderBO.getCustId());
 		orderVO.setCarNo(orderBO.getCarno());
 		orderVO.setPhoneno(orderBO.getPhoneno());
-		
 		orderVO.setEvalDesc(orderBO.getEvalDesc());
-		orderVO.setEvalType(orderBO.getEvalDescType());
+		if (orderBO.getEvalDescType() != null)
+		{
+			orderVO.setEvalType(orderBO.getEvalDescType());
+		}
 		orderVO.setWorkOrderId(orderBO.getOrderId());
 		orderVO.setStatus(orderBO.getStatus());
 		orderVO.setStatusDes(Constant.STATUS_MAP.get(orderBO.getStatus()));
@@ -649,6 +693,19 @@ public class WorkOrderService {
 		
 		String amount = orderBO.getAmount() == null ? "0" : String.valueOf(orderBO.getAmount());
 		orderVO.setAmount(amount);
+		
+		//对于增强型订单对象，直接转化
+		if (orderBO instanceof EnableWorkOrderBO)
+		{
+			EnableWorkOrderBO enableWorkOrder = (EnableWorkOrderBO)orderBO;
+			orderVO.setOrderType(enableWorkOrder.getOrderType());
+			ServiceBO service = ServiceUtils.queryServiceBySKey(enableWorkOrder.getOrderType());
+			if (service != null)
+			{
+				orderVO.setServiceName(service.getService_name());
+			}
+			orderVO.setDisFinishedTime(DateAS.convertDate2Str(enableWorkOrder.getFinishedTime()));
+		}
 		
 		return orderVO;
 	}

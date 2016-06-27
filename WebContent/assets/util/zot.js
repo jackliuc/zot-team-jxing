@@ -73,6 +73,23 @@ getAuthMenuURL:function(menuId){
 			menuURL = ret;
 				});	
 		return menuURL;
+	},
+
+getParameter:function(url, name){
+		var value;
+		var pindex = url.indexOf("?");
+	    if (pindex != -1) {
+	        var str = url.substr(pindex + 1);
+	        var params = str.split("&");
+	        for(var i = 0; i < params.length; i++) {
+	        	var paramArry = params[i].split("=");
+	        	if (paramArry[0] == name){
+	        		value = paramArry[1];
+	        		break;
+	        	}
+	        }
+	    }
+	    return value;
 	}
 };
 

@@ -10,9 +10,9 @@ import com.zot.wechat.msg.Constant;
 import com.zot.xing.view.service.WorkOrderVO;
 import com.zot.xing.view.subscribe.WorkOrderService;
 
-public class QryBookingOrdersAction implements PrefixService {
+public class QryWorkOrdersAction implements PrefixService {
 
-	private static Logger log = Logger.getLogger(QryBookingOrdersAction.class);
+	private static Logger log = Logger.getLogger(QryWorkOrdersAction.class);
 
 	@Override
 	public Object action(Map<String, String> context) {
@@ -22,7 +22,7 @@ public class QryBookingOrdersAction implements PrefixService {
 		
 		try
 		{
-			List<WorkOrderVO> workOrderVOs = WorkOrderService.qryBookingOrders(status, phoneno, carno);
+			List<WorkOrderVO> workOrderVOs = WorkOrderService.qryWorkOrders(status, phoneno, carno);
 			return workOrderVOs;
 		}
 		catch (Exception ex)

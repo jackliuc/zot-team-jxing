@@ -17,6 +17,10 @@ public class Cost {
 	private String costTime;
 	
 	private String createTime;
+	
+	private String costCarNo;
+	
+	private float costBalance;
 
 	public String getCostId() {
 		return costId;
@@ -80,6 +84,22 @@ public class Cost {
 
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
+	}
+
+	public String getCostCarNo() {
+		return costCarNo;
+	}
+
+	public void setCostCarNo(String costCarNo) {
+		this.costCarNo = costCarNo;
+	}
+
+	public float getCostBalance() {
+		return costBalance;
+	}
+
+	public void setCostBalance(float costBalance) {
+		this.costBalance = costBalance;
 	}
 	
 	

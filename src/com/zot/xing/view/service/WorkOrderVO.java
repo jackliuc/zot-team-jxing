@@ -9,6 +9,7 @@ public class WorkOrderVO {
 	private String disCreateTime;//创建时间
 	private String disOrderTime;//预约时间
 	private String disServiceTime;//服务时间
+	private String disFinishedTime;//服务结束时间
 	private String carNo;//车牌号
 	
 	private String custId;//客户Id
@@ -147,5 +148,10 @@ public class WorkOrderVO {
 	public void setStatusDes(String statusDes) {
 		this.statusDes = statusDes;
 	}
-	
+	public String getDisFinishedTime() {
+		return disFinishedTime;
+	}
+	public void setDisFinishedTime(String disFinishedTime) {
+		this.disFinishedTime = disFinishedTime;
+	}
 }
