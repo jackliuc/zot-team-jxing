@@ -1,31 +1,36 @@
 package com.zot.manage.cost;
 
-import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.alibaba.fastjson.JSONObject;
-import com.zot.manage.cost.dao.Cost;
-import com.zot.manage.cost.dao.CostAS;
-import com.zot.manage.cost.dao.CostASImpl;
+import com.zot.manage.service.cost.CostService;
+import com.zot.manage.service.cost.CostVO;
 import com.zot.view.contorler.PrefixService;
+import com.zot.wechat.msg.Constant;
 
 public class AddCostAction implements PrefixService {
 
-	//private static Logger logger = Logger.getLogger(AddCostAction.class);
+	private static Logger log = Logger.getLogger(AddCostAction.class);
 	
 	@Override
-	public List<Cost> action(Map<String, String> context) {
+	public String action(Map<String, String> context) {
 		String costChangesJsonStr = context.get("data");
 		
-		List<Cost> costs = JSONObject.parseArray(costChangesJsonStr, Cost.class);
+		try
+		{
+			CostVO cost = JSONObject.parseObject(costChangesJsonStr, CostVO.class);
+			
+			CostService.addCost(cost);
+		}
+		catch(Exception ex)
+		{
+			log.error(ex.getMessage(), ex);
+			return Constant.FAIL;
+		}
 		
-		CostAS cas = new CostASImpl();
-		
-		cas.saveCosts(costs);
-		
-		List<Cost> result = cas.listCost(null);
-		
-		return result;
+		return Constant.SUCC;
 	}
 
 }

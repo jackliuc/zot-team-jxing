@@ -172,9 +172,8 @@
 	
 	function cancelOrder(orderId)
 	{
-		debugger;
+		//debugger;
 		var dataD = new Object();
-
 		dataD.serviceAction = "cancelWorkOrderAction";
 		dataD.orderId = orderId;
 		$.zot.post(dataD,function(ret){
@@ -188,6 +187,8 @@
 				alertMsg('取消预约失败，请稍后再试');	
 			}
 		});	
+		
+		return false;
 	}
 	
 	function go2checkout(carno)
@@ -195,5 +196,7 @@
 		//将需要传递的参数值，放到主框架页面adminMain.jsp中
 		$("#global_carno").val(carno);
 		$("#optContent").load("customer/checkout.jsp");
+		
+		return false;
 	}
 </script>

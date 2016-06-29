@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="renderer" content="webkit">
   <meta http-equiv="Cache-Control" content="no-siteapp" />
-  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="shortcut icon" href="assets/i/favicon.ico" >
   <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
   <meta name="apple-mobile-web-app-title" content="Amaze UI" />
   <link rel="stylesheet" href="assets/css/amazeui.min.css"/>
@@ -54,7 +54,7 @@ $(document).ready(function(){
 </head>
 <body>
 <!--[if lte IE 9]>
-<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，壹号车服务系统 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
   以获得更好的体验！</p>
 <![endif]-->
 
@@ -92,7 +92,7 @@ $(document).ready(function(){
             <li><a href="#" id="employ"><span class="am-icon-puzzle-piece"></span> 员工 </a></li>
          </ul>
         </li>
-        <li><a href="admin-form.html"><span class="am-icon-pencil-square-o"></span> 系统日志</a></li>
+        <li><a href="#"><span class="am-icon-pencil-square-o"></span> 系统日志</a></li>
         <!-- li><a href="#"><span class="am-icon-sign-out"></span> 注销</a></li> -->
       </ul>
 

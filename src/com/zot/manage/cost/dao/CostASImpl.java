@@ -9,39 +9,47 @@ import com.zot.db.JDBCTemplate;
 import com.zot.db.ResultSetHandler;
 import com.zot.util.DateAS;
 import com.zot.util.IdGen;
+import com.zot.util.StringUtils;
+import com.zot.wechat.msg.Constant;
 
 public class CostASImpl implements CostAS {
 	
-	private static final String ADD_COST = "INSERT INTO t_zot_cost(COST_ID,COST_CAR_NO,CREATE_TIME,COST_TIME"
-			+ "COST_TYPE,COST_SUBTYPE,COST_AMOUNT,COST_OPERATOR,BALANCE,REMARK) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String ADD_COST = "INSERT INTO t_zot_cost(COST_ID,COST_CAR_NO,CREATE_TIME,COST_TIME,"
+			+ "COST_TYPE,COST_SUBTYPE,COST_AMOUNT,COST_OPERATOR,BALANCE,REMARK) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	private static final String UPDATE_COST = "UPDATE t_zot_cost SET cost_type=?, cost_subtype=?, remark=?"
 			+ ", cost_amount=?, cost_operator=?, cost_time=? where cost_id=?";
 	
-	private static final String QRY_COST =  "select * from t_zot_cost order by cost_time desc";
+	private static final String QRY_COST =  "select * from t_zot_cost where 1 = 1 "
+			+ Constant.SQL_COND
+			+ " order by create_time desc limit 10";
 	
 	@Override
-	public List<Cost> listCost(Cost c) {
+	public List<Cost> queryCost(Cost c) {
 		JDBCTemplate<Cost> sqlTemplate = new JDBCTemplate<Cost>();
 		
+		//构造查询的where条件和参数
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer buf = new StringBuffer();
+		if (!StringUtils.isEmpty(c.getCostOperator()))
+		{
+			buf.append(" and cost_operator = ?");
+			params.add(c.getCostOperator());
+		}
+		if (!StringUtils.isEmpty(c.getCostType()))
+		{
+			buf.append(" and cost_type = ?");
+			params.add(c.getCostType());
+		}
+		String qrySQL = QRY_COST.replaceAll(Constant.SQL_COND, buf.toString());
+		
 		final List<Cost> result = new ArrayList<>();
-		sqlTemplate.query(QRY_COST, null, new ResultSetHandler<Cost>(){
+		sqlTemplate.query(qrySQL, params, new ResultSetHandler<Cost>(){
 
 			@Override
 			public Cost rsHandler(ResultSet rs) throws SQLException {
 				while (rs.next()) {
-					Cost cost = new Cost();
-					cost.setCostAmount(rs.getFloat("cost_amount"));
-					cost.setCostId(rs.getString("cost_id"));
-					cost.setCostOperator(rs.getString("cost_operator"));
-					cost.setCostSubType(rs.getString("cost_subtype"));
-					cost.setCostTime(DateAS.convertDate2Str(rs.getDate("cost_time"),"yyyy-MM-dd"));
-					cost.setCostType(rs.getString("cost_type"));
-					cost.setCreateTime(DateAS.convertDate2Str(rs.getDate("create_time")));
-					cost.setRemark(rs.getString("remark"));
-					cost.setCostCarNo(rs.getString("cost_car_no"));
-					
-					result.add(cost);
+					result.add(cvt2Cost(rs));
 				}
 				return null;
 			}
@@ -106,6 +114,23 @@ public class CostASImpl implements CostAS {
 			results.add(result);
 		}
 		return results;
+	}
+	
+	private Cost cvt2Cost(ResultSet rs) throws SQLException
+	{
+		Cost cost = new Cost();
+		cost.setCostAmount(rs.getFloat("cost_amount"));
+		cost.setCostId(rs.getString("cost_id"));
+		cost.setCostOperator(rs.getString("cost_operator"));
+		cost.setCostSubType(rs.getString("cost_subtype"));
+		cost.setCostTime(DateAS.convertDate2Str(rs.getTimestamp("cost_time"),"yyyy-MM-dd"));
+		cost.setCostType(rs.getString("cost_type"));
+		cost.setCreateTime(DateAS.convertDate2Str(rs.getTimestamp("create_time"),"yyyy-MM-dd HH:mm:ss"));
+		cost.setRemark(rs.getString("remark"));
+		cost.setCostCarNo(rs.getString("cost_car_no"));
+		cost.setCostBalance(rs.getFloat("balance"));
+		
+		return cost;
 	}
 
 }

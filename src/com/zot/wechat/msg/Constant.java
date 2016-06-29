@@ -136,4 +136,38 @@ public class Constant {
 	public static final String COST_CAR_NO = "C000001";
 	
 	public static final String SQL_COND = "<%SQL_COND%>";
+	
+	public static final String COST_INCOME = "1";//收入
+	public static final String COST_CONSUME = "0";//支出
+	public static final Map<String, String> COST_TYPE_MAP = new HashMap<String, String>(){
+		private static final long serialVersionUID = 1L;
+		{
+			put(COST_INCOME, "收入");
+			put(COST_CONSUME, "支出");
+		}
+	};
+	
+	public static final String COST_SUBTYPE_0 = "0";//取现
+	public static final String COST_SUBTYPE_1 = "1";//日常餐饮
+	public static final String COST_SUBTYPE_2 = "2";//服务项目
+	public static final String COST_SUBTYPE_3 = "3";//办公用品
+	public static final String COST_SUBTYPE_4 = "4";//设备
+	public static final String COST_SUBTYPE_5 = "5";//员工福利
+	public static final String COST_SUBTYPE_6 = "6";//运费
+	public static final String COST_SUBTYPE_7 = "7";//水电费
+	public static final String COST_SUBTYPE_99 = "99";//其他
+	public static final Map<String, String> COST_SUBTYPE_MAP = new HashMap<String, String>(){
+		private static final long serialVersionUID = 1L;
+		{
+			put(COST_SUBTYPE_0, "取现");
+			put(COST_SUBTYPE_1, "日常餐饮");
+			put(COST_SUBTYPE_2, "服务项目");
+			put(COST_SUBTYPE_3, "办公用品");
+			put(COST_SUBTYPE_4, "设备");
+			put(COST_SUBTYPE_5, "员工福利");
+			put(COST_SUBTYPE_6, "运费");
+			put(COST_SUBTYPE_7, "水电费");
+			put(COST_SUBTYPE_99, "其他");
+		}
+	};
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface CostAS {
 
-	List<Cost> listCost(Cost c);
+	List<Cost> queryCost(Cost c);
 	
 	Cost createCost(Cost c);
 	

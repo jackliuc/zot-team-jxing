@@ -32,6 +32,8 @@ ALTER TABLE `t_zot_card_log`
 DROP TABLE t_zot_employ;
 CREATE TABLE IF NOT EXISTS `t_zot_employ` (
   `employ_id` varchar(26) NOT NULL,
+  `employ_no` varchar(26) NOT NULL,
+  `employ_pwd` varchar(128) NOT NULL,
   `employ_name` varchar(128) NOT NULL,
   -- 员工类型： 1:店长;2:财务;3:接待；4：普通
   `employ_type` char(1) NOT NULL,
@@ -48,9 +50,9 @@ ALTER TABLE `t_zot_employ`
   ADD PRIMARY KEY (`employ_id`);
   
 DELETE FROM  t_zot_employ;
-INSERT INTO `t_zot_employ` (`employ_id`, `employ_name`, `employ_type`, `phoneno`, `super_employ_id`, `sex`) VALUES
-('600000001', '李金龙', '1', '189', '0', 1),
-('600000002', '陈雪桃', '3', '189', '600000001', 2);
+INSERT INTO `t_zot_employ` (`employ_id`, `employ_no`, `employ_pwd`, `employ_name`, `employ_type`, `phoneno`, `super_employ_id`, `sex`) VALUES
+('600000001', 'ljl', 'ljl', '李金龙', '1', '189', '0', 1),
+('600000002', 'cxt', '123', '陈雪桃', '3', '189', '600000001', 2);
 
 -- --------------------------------------------------------
 
@@ -192,7 +194,7 @@ CREATE TABLE IF NOT EXISTS `T_ZOT_COST_BAL`
 	-- 消费虚拟卡号
 	`COST_CAR_NO` VARCHAR(30) NOT NULL PRIMARY KEY,
 	-- 消费虚拟卡余额
-	`COST_BALANCE` FLOAT(10,1),
+	`COST_BALANCE` FLOAT(10,2),
 	-- 最近消费时间
 	`LAST_UPDATE_DATE` TIMESTAMP,
 	-- 备注说明
@@ -208,18 +210,18 @@ CREATE TABLE IF NOT EXISTS `T_ZOT_COST`
 	`COST_TIME` TIMESTAMP,
 	-- 0：支出，1：收入
 	`COST_TYPE` VARCHAR(20) NOT NULL, 
-	-- 收入-0：取现；支出-1：日常餐饮；2：耗材；3：办公用品；4：设备：5：员工福利；6：运费；7：其他
+	-- 收入-0：取现；支出-1：日常餐饮；2：服务项目；3：办公用品；4：设备：5：员工福利；6：运费；7：水电费；99：其他
 	`COST_SUBTYPE` VARCHAR(20) NOT NULL, 
-	`COST_AMOUNT` FLOAT(10,1),
+	`COST_AMOUNT` FLOAT(10,2),
 	-- 经手人：员工Id
 	`COST_OPERATOR` VARCHAR(20),
 	-- 余额，店内卡的余额
-	`BALANCE` FLOAT(10,1), 
+	`BALANCE` FLOAT(10,2), 
 	-- 备注说明
 	`REMARK` VARCHAR(512) 
 );
 
 ALTER TABLE `T_ZOT_COST` 
-  ADD INDEX cost_index_costtime ( `COST_TIME`);
+  ADD INDEX cost_index_costtime ( `CREATE_TIME`);
 
 
