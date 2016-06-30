@@ -388,8 +388,9 @@ public class WorkOrderService {
 	{
 		//查询客户信息，如果不存在，则直接构造客户信息，并入库
 		//TODO:待排查，同样的微信号存在两个客户
-		String custId = CustomerService.queryOrCreateCustIdByWechatno
+		CustomerBO customer = CustomerService.queryOrCreateCustIdByWechatno
 							(subscribeVO.getWechatno(), subscribeVO.getPhoneno());
+		String custId = customer.getCustId();
 		
 		//检查当前Carno是否有对应的车辆信息，如果无，则创建
 		CarAS caras = new CarASImpl();

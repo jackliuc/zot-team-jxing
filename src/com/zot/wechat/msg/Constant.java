@@ -91,6 +91,7 @@ public class Constant {
 	//OAUTH获取用户信息相关URL
 	public static final String MENU_BOOKING = "10001";
 	public static final String MENU_ORDERS = "10002";
+	public static final String MENU_CUSTCARS = "10003";
 	public static final String OAUTH2_BASE_URL_PRE = "https://open.weixin.qq.com/connect/oauth2/authorize?" 
 													+ "appid=" + sCorpID;
 	public static final String OAUTH2_BASE_URL_SUF = "&response_type=code&scope=snsapi_base&state=jzot123"
@@ -104,6 +105,9 @@ public class Constant {
 			put(MENU_ORDERS, OAUTH2_BASE_URL_PRE  
 							+ "&redirect_uri=http%3a%2f%2fwww.1hche.com%2fjzot%2forders.jsp"
 							+ OAUTH2_BASE_URL_SUF);
+			put(MENU_CUSTCARS, OAUTH2_BASE_URL_PRE  
+					+ "&redirect_uri=http%3a%2f%2fwww.1hche.com%2fjzot%2fcustcars.jsp"
+					+ OAUTH2_BASE_URL_SUF);
 		}
 	};
 	

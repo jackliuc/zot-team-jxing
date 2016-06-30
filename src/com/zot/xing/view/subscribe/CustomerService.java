@@ -18,7 +18,7 @@ public class CustomerService {
 	 * @param phoneno 手机号
 	 * @return 客户id
 	 */
-	public static String queryOrCreateCustIdByWechatno(String wechatno, String phoneno)
+	public static CustomerBO queryOrCreateCustIdByWechatno(String wechatno, String phoneno)
 	{
 		logger.debug(wechatno+","+phoneno);
 
@@ -27,12 +27,20 @@ public class CustomerService {
 		if (customer == null)
 		{
 			logger.debug("customer is not exist, create customer by wechatno, phoneno.");
-			customer = getCustomerBOByWechatno(wechatno, phoneno);
-			custAS.addCustomer(customer);
+			customer = addCustomer(wechatno, phoneno);
 		}
 		
 		logger.debug("return custid is:" + customer.getCustId());
-		return customer.getCustId();
+		return customer;
+	}
+	
+	private static CustomerBO addCustomer(String wechatno, String phoneno)
+	{
+		CustomerBO customer = getCustomerBOByWechatno(wechatno, phoneno);
+		CustomerAS custAS = new CustomerASImpl();
+		custAS.addCustomer(customer);
+		
+		return customer;
 	}
 	
 	private static CustomerBO getCustomerBOByWechatno(String wechatno, String phoneno)
