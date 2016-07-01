@@ -60,7 +60,7 @@
     <div class="am-modal-bd">
     </div>
     <div class="am-modal-footer">
-      <span class="am-modal-btn">确定</span>
+      <span id="cust_cars_ok_btn" class="am-modal-btn">确定</span>
     </div>
   </div>
 </div>
@@ -125,11 +125,15 @@
 		
 	 	$.zot.post(dataD,function(ret){
 	 		if (ret == 'F'){
+	 			$("#cust_cars_ok_btn").click(function(){
+	 			});
 	 			alertMsg("新增失败，请稍后再试");
 	 		}
 	 		else{
+	 			$("#cust_cars_ok_btn").click(function(){
+	 				window.location.href = custcarsMenuURL;
+	 			});
 	 			alertMsg("新增车辆成功");
-	 			window.location.href = custcarsMenuURL;
 	 		}
 	 		
 	 		return false;
