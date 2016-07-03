@@ -1,7 +1,7 @@
 package com.zot.manage.service.employ;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +10,7 @@ import com.zot.xing.dao.employ.EmployASImpl;
 import com.zot.xing.dao.employ.EmployBO;
 
 public class EmployService {
-	private static Map<String, EmployBO> allEmploysMap = new HashMap<String, EmployBO>();
+	private static Map<String, EmployBO> allEmploysMap = new LinkedHashMap<String, EmployBO>();
 	
 	static
 	{

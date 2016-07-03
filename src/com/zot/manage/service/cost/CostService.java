@@ -1,5 +1,6 @@
 package com.zot.manage.service.cost;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,12 +12,13 @@ import com.zot.manage.cost.dao.CostBal;
 import com.zot.manage.cost.dao.CostBalAS;
 import com.zot.manage.cost.dao.CostBalASImpl;
 import com.zot.manage.service.employ.EmployService;
+import com.zot.util.FileAS;
 import com.zot.wechat.msg.Constant;
 import com.zot.xing.dao.employ.EmployBO;
 
 public class CostService 
 {
-	public static void addCost(CostVO cost)
+	public static void addCost(Cost cost)
 	{
 		//查询余额
 		CostBalAS costBalAS = new CostBalASImpl();
@@ -26,11 +28,11 @@ public class CostService
 		float cardBal = costBal.getCostBalance();
 		if (Constant.COST_INCOME.equals(cost.getCostType()))//收入
 		{
-			cardBal += cost.getCostAmount();
+			cardBal = cardBal + cost.getCostAmount();
 		}
 		else//支出
 		{
-			cardBal -= cost.getCostAmount();
+			cardBal = cardBal - cost.getCostAmount();
 		}
 		costBal.setCostBalance(cardBal);
 		
@@ -61,6 +63,41 @@ public class CostService
 		return costVOs;
 	}
 	
+	public static void importExcel(File file, int index)
+	{
+		List<String> lines = FileAS.readExcel(file, index);
+		Cost cost = null;
+		if (lines != null)
+		{
+			for (String line : lines)
+			{
+				cost = cvt2Cost(line);
+				if (cost != null)
+				{
+					addCost(cost);
+				}
+			}
+		}
+	}
+	
+	private static Cost cvt2Cost(String line)
+	{
+		Cost cost = null;
+		String[] arry = line.split(FileAS.FIELD_SEP);
+		if (arry != null && arry.length >= 6)
+		{
+			cost = new Cost();
+			cost.setCostTime(arry[0]);
+			cost.setCostOperator(arry[5]);
+			cost.setCostSubType(arry[2]);
+			cost.setCostType(arry[1]);
+			cost.setCostAmount(Float.parseFloat(arry[4]));
+			cost.setRemark(arry[3]);
+		}
+
+		return cost;
+	}
+	
 	private static CostVO cvt2CostVO(Cost cost)
 	{
 		CostVO costVO = new CostVO(cost);
@@ -73,5 +110,10 @@ public class CostService
 		}
 		
 		return costVO;
+	}
+	
+	public static void main(String[] args) 
+	{
+		CostService.importExcel(new File("D:/壹号车/5月消费明细.xls"), 4);
 	}
 }

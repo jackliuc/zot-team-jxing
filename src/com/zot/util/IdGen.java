@@ -19,6 +19,6 @@ public class IdGen {
 	
 	public static String genCostId()
 	{
-		return COST_ID_PRE + UUID.randomUUID().toString();
+		return COST_ID_PRE + System.currentTimeMillis();
 	}
 }

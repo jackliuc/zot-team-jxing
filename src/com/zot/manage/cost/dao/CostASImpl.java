@@ -22,7 +22,7 @@ public class CostASImpl implements CostAS {
 	
 	private static final String QRY_COST =  "select * from t_zot_cost where 1 = 1 "
 			+ Constant.SQL_COND
-			+ " order by create_time desc limit 10";
+			+ " order by cost_id desc limit 10";
 	
 	@Override
 	public List<Cost> queryCost(Cost c) {

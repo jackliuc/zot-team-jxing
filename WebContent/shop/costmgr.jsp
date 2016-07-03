@@ -159,6 +159,24 @@
 </div>
 
 <script>
+	$(document).ready(function(){
+		var serviceD = new Object();
+	 	serviceD.serviceAction = "qryEmploysAction";
+		$.zot.post(serviceD,function(employs){
+			if (employs && employs.length > 0){
+				var qryOprObj = $('#qry_operator');
+				qryOprObj[0].options.length = 0;
+				qryOprObj.append("<option value='-1' selected>所有</option>");
+				var editOprObj = $('#edit_cost_operator');
+				editOprObj[0].options.length = 0;
+				for(var p in employs){
+					qryOprObj[0].options.add(new Option(employs[p].employName, employs[p].employId));
+					editOprObj[0].options.add(new Option(employs[p].employName, employs[p].employId));
+				}
+			}
+		});
+	});
+	
 	$("#edit_save").click(function(){
 		
 		var cost_time = $("#edit_cost_time").val();
@@ -203,6 +221,8 @@
 	});
 	
 	$("#qryCostBtn").click(function(){
+		$("#edit_cost_div").css("display","none");
+		
 		var serviceD = new Object();
 	 	serviceD.serviceAction = "qryCostAction";
 	 	

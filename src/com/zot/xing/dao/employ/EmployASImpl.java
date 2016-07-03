@@ -9,7 +9,7 @@ import com.zot.db.JDBCTemplate;
 import com.zot.db.ResultSetHandler;
 
 public class EmployASImpl implements EmployAS {
-	private static final String QRY_ALL = "select * from t_zot_employ";
+	private static final String QRY_ALL = "select * from t_zot_employ order by employ_id";
 	
 	@Override
 	public List<EmployBO> queryAllEmploys() {

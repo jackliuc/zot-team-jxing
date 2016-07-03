@@ -119,6 +119,12 @@
 		        <input name="serviceType" type="radio" value="10008">保养
 		      </label>
 		      <label class="am-radio inline">
+		        <input name="serviceType" type="radio" value="10009">装饰
+		      </label>
+		      <label class="am-radio inline">
+		        <input name="serviceType" type="radio" value="10010">其他
+		      </label>
+		      <label class="am-radio inline">
 		        <input name="serviceType" type="radio" value="18001">充值
 		      </label>
 		      <label class="am-radio inline">
