@@ -127,7 +127,8 @@ public class FileAS
 	            case HSSFCell.CELL_TYPE_FORMULA:  
 	                buf.append(cell.getCellFormula()).append(FIELD_SEP);
 	                break;  
-	            default:  
+	            default: 
+	            	buf.append(FIELD_SEP);
 	                break;  
             }  
         }

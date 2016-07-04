@@ -587,12 +587,14 @@ public class WorkOrderService {
 		dailyServiceCntVO.setTitle(qryDate + " 日服务项目统计");
 		
 		List<ServiceVO> services = new ArrayList<ServiceVO>();
-		services.add(getServiceVO("10001", 0, 0));
-		services.add(getServiceVO("10002", 0, 0));
-		services.add(getServiceVO("10003", 0, 0));
-		services.add(getServiceVO("10006", 0, 0));
-		services.add(getServiceVO("10008", 0, 0));
-		services.add(getServiceVO("18001", 0, 0));
+		List<ServiceBO> servDefs = ServiceUtils.queryAllServices();
+		if (servDefs != null)
+		{
+			for (ServiceBO servDef : servDefs)
+			{
+				services.add(getServiceVO(servDef.getService_id(), 0, 0));
+			}
+		}
 		dailyServiceCntVO.setServices(services);
 		
 		return dailyServiceCntVO;

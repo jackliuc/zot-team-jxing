@@ -114,6 +114,7 @@ public class CostService
 	
 	public static void main(String[] args) 
 	{
-		CostService.importExcel(new File("D:/壹号车/5月消费明细.xls"), 4);
+		CostService.importExcel(new File("D:/壹号车/汇总明细-07-03.xls"), 4);
+		System.out.println("finished.");
 	}
 }

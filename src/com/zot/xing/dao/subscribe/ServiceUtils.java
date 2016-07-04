@@ -5,7 +5,9 @@ package com.zot.xing.dao.subscribe;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -36,6 +38,16 @@ public class ServiceUtils {
 		}
 	}
 	
+	public static List<ServiceBO> queryAllServices()
+	{
+		if(services == null)
+		{
+			init();
+		}
+		
+		return new ArrayList<ServiceBO>(services.values());
+	}
+	
 	/**
 	 * 通过serviceKey查询服务信息，初始化的时候只需要把services 值为null
 	 * @param key
@@ -53,12 +65,13 @@ public class ServiceUtils {
 	
 	private static Map<String,ServiceBO> queryServices()
 	{
-		String sql = "SELECT service_id, service_name, service_des, cost_time, current_cnt,price  FROM t_zot_service";
+		String sql = "SELECT service_id, service_name, service_des, cost_time, current_cnt,price  "
+				+ "FROM t_zot_service order by service_id";
 		JDBCTemplate<Map<String,ServiceBO>> jdbcTmp = new JDBCTemplate<Map<String,ServiceBO>>();
 		return jdbcTmp.query(sql, null, new ResultSetHandler<Map<String,ServiceBO>>(){
 			@Override
 			public Map<String,ServiceBO> rsHandler(ResultSet rs) throws SQLException {
-				Map<String,ServiceBO> tmpService = new HashMap<String,ServiceBO>();
+				Map<String,ServiceBO> tmpService = new LinkedHashMap<String,ServiceBO>();
 				while(rs.next())
 				{
 					
