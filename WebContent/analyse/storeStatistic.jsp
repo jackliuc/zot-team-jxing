@@ -34,9 +34,10 @@
   <div class="am-u-md-6">
 	<!-- 每日支出统计 -->
 	<div class="am-panel am-panel-default">
-      <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-3'}">每日支出统计<span class="am-icon-chevron-down am-fr" ></span></div>
-      <div id="collapse-panel-3" class="am-in">
-        
+      <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-costsubtype'}">
+      	<span id="dailyCostSubTypeTitle">每日支出统计</span><span class="am-icon-chevron-down am-fr" ></span>
+      </div>
+      <div id="collapse-panel-costsubtype" class="am-in">
       </div>
 	</div>
   </div>
@@ -72,7 +73,20 @@
 			$("#dailyInComeTitle").text(dailyAmountCnt.title);
 			var dailyAmountTblsHtml = getDailyAmountTbls(dailyAmountCnt);
 			$("#collapse-panel-amount").html(dailyAmountTblsHtml);
-			
+		});
+		
+		//动态输出每日支出统计信息
+		debugger;
+		dataD = new Object();
+	 	dataD.serviceAction = "qryDailyCostSubTypeAction";
+		$.zot.post(dataD, function(dailyCostSubTypeCnt){
+			if (!dailyCostSubTypeCnt){
+	 			return;
+	 		}
+
+			$("#dailyCostSubTypeTitle").text(dailyCostSubTypeCnt.title);
+			var dailyCostSubTypeTblsHtml = getDailyCostSubTypeTbls(dailyCostSubTypeCnt.costSubTypeCnts);
+			$("#collapse-panel-costsubtype").html(dailyCostSubTypeTblsHtml);
 		});
 	});
 	
@@ -105,6 +119,23 @@
 			arry.push(amount.payTypeName);
 			arry.push("</td><td>");
 			arry.push(amount.amount);
+			arry.push("</td></tr>");
+		});
+		arry.push("</tbody></table>");
+		
+		return arry.join("");
+	}
+	
+	function getDailyCostSubTypeTbls(dailyCostSubTypeCnts)
+	{
+		var arry = [];
+		arry.push("<table class=\"am-table am-table-bd am-table-bdrs am-table-striped am-table-hover\">");
+		arry.push("<tbody><tr><th>消费类型</th><th>金额</th></tr>");
+		$.each(dailyCostSubTypeCnts,function(n,dailyCostSubTypeCnt) {   
+			arry.push("<tr><td>");
+			arry.push(dailyCostSubTypeCnt.costSubTypeName);
+			arry.push("</td><td>");
+			arry.push(dailyCostSubTypeCnt.amount);
 			arry.push("</td></tr>");
 		});
 		arry.push("</tbody></table>");

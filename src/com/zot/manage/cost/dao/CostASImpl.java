@@ -24,6 +24,9 @@ public class CostASImpl implements CostAS {
 			+ Constant.SQL_COND
 			+ " order by cost_id desc limit 10";
 	
+	private static final String QRY_COSTSUBTYPE_BY_DATE =  "select cost_subtype, sum(cost_amount) num from t_zot_cost"
+			+ " where cost_type = 0 and (create_time > ? and create_time <= ?) group by cost_subtype";
+	
 	@Override
 	public List<Cost> queryCost(Cost c) {
 		JDBCTemplate<Cost> sqlTemplate = new JDBCTemplate<Cost>();
@@ -114,6 +117,40 @@ public class CostASImpl implements CostAS {
 			results.add(result);
 		}
 		return results;
+	}
+	
+	@Override
+	public List<CostSubTypeCnt> queryCostSubTypeByDate(String beginDate, String endDate) 
+	{
+		JDBCTemplate<List<CostSubTypeCnt>> jt = new JDBCTemplate<List<CostSubTypeCnt>>();
+		List<Object> params = new ArrayList<Object>();
+		params.add(beginDate);
+		params.add(endDate);
+
+		List<CostSubTypeCnt> costSubTypeCnts = jt.query(QRY_COSTSUBTYPE_BY_DATE, params, 
+				new ResultSetHandler<List<CostSubTypeCnt>>()
+				{
+					@Override
+					public List<CostSubTypeCnt> rsHandler(ResultSet rs) throws SQLException {
+						List<CostSubTypeCnt> costSubTypeCnts = new ArrayList<CostSubTypeCnt>();
+						CostSubTypeCnt costSubTypeCnt = null;
+						
+						while (rs.next())
+						{
+							costSubTypeCnt = new CostSubTypeCnt();
+							costSubTypeCnt.setCostSubType(rs.getString("cost_subtype"));
+							costSubTypeCnt.setAmount(rs.getFloat("num"));
+							costSubTypeCnt.setCostSubTypeName(
+									Constant.COST_SUBTYPE_MAP.get(costSubTypeCnt.getCostSubType()));
+		
+							costSubTypeCnts.add(costSubTypeCnt);
+						}
+						
+						return costSubTypeCnts;
+					}
+				});
+		
+		return costSubTypeCnts;
 	}
 	
 	private Cost cvt2Cost(ResultSet rs) throws SQLException
