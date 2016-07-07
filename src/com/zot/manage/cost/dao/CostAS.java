@@ -11,4 +11,6 @@ public interface CostAS {
 	Cost updateCost(Cost c);
 	
 	List<Cost> saveCosts(List<Cost> costs);
+	
+	List<CostSubTypeCnt> queryCostSubTypeByDate(String beginDate, String endDate);
 }

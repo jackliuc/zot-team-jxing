@@ -11,7 +11,9 @@ import com.zot.manage.cost.dao.CostASImpl;
 import com.zot.manage.cost.dao.CostBal;
 import com.zot.manage.cost.dao.CostBalAS;
 import com.zot.manage.cost.dao.CostBalASImpl;
+import com.zot.manage.cost.dao.CostSubTypeCnt;
 import com.zot.manage.service.employ.EmployService;
+import com.zot.util.DateAS;
 import com.zot.util.FileAS;
 import com.zot.wechat.msg.Constant;
 import com.zot.xing.dao.employ.EmployBO;
@@ -80,6 +82,26 @@ public class CostService
 		}
 	}
 	
+	public static DailyCostSubTypeCntVO qryDailyCostSubTypeCnt(Date qryDate)
+	{
+		String qryD = DateAS.convertDate2Str(qryDate, "yyyy-MM-dd");
+		
+		//构造查询条件，进行数据查询
+		String beginDate = qryD + " 00:00:00";
+		String endDate = qryD + " 23:59:59";
+		
+		//构造每日消费支出，并返回
+		DailyCostSubTypeCntVO dailyCostSubTypeCntVO = new DailyCostSubTypeCntVO();
+		dailyCostSubTypeCntVO.setTitle(qryD + " 日支出统计");
+		
+		//查询
+		CostAS costAS = new CostASImpl();
+		List<CostSubTypeCnt> costSubTypeCnts = costAS.queryCostSubTypeByDate(beginDate, endDate);
+		dailyCostSubTypeCntVO.setCostSubTypeCnts(costSubTypeCnts);
+
+		return dailyCostSubTypeCntVO;
+	}
+	
 	private static Cost cvt2Cost(String line)
 	{
 		Cost cost = null;
@@ -114,7 +136,10 @@ public class CostService
 	
 	public static void main(String[] args) 
 	{
-		CostService.importExcel(new File("D:/壹号车/汇总明细-07-03.xls"), 4);
-		System.out.println("finished.");
+		for (int i = 0; i < 5; i++)
+		{
+			CostService.importExcel(new File("D:/壹号车/汇总明细-07-03.xls"), i);
+			System.out.println("finished, index:" + i);
+		}
 	}
 }
