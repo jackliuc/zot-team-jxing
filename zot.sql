@@ -232,5 +232,66 @@ CREATE TABLE IF NOT EXISTS `T_ZOT_COST`
 
 ALTER TABLE `T_ZOT_COST` 
   ADD INDEX cost_index_costtime ( `CREATE_TIME`);
+  
 
+DROP TABLE t_zot_mem_class; -- 会员等级表
+CREATE TABLE IF NOT EXISTS `t_zot_mem_class` (
+  `class_code` varchar(10) NOT NULL, -- 会员等级编码
+  `class_name` varchar(20) NOT NULL, -- 会员等级名称
+  `create_time` timestamp NULL DEFAULT NULL, -- 创建时间
+  `last_upd_time` timestamp NULL DEFAULT NULL, -- 最近更新时间
+  `serv_disratio` int(10) NOT NULL, -- 服务类项目折扣，百分比，只能是整数
+  `prod_disratio` int(10) NOT NULL, -- 配件类项目折扣，百分比，只能是整数
+  `min_amount` FLOAT(10,2) NOT NULL,  -- 此等级会员的最低充值金额
+  `remark` varchar(512) DEFAULT NULL -- 备注
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `t_zot_mem_class`
+  ADD PRIMARY KEY (`class_code`);
+  
+
+DROP TABLE t_zot_serv_type; -- 服务项目定义表，可从t_zot_service表升级而来
+CREATE TABLE IF NOT EXISTS `t_zot_serv_type` (
+  `serv_type_code` varchar(10) NOT NULL, -- 服务项目编码
+  `serv_type_name` varchar(20) NOT NULL, -- 服务项目名称 
+  `serv_catalog` varchar(10) NOT NULL, -- 服务类别：1-服务类；2-配件类；3-其他，直接使用业务字典，不再使用表定义，出厂预置。
+  `create_time` timestamp NULL DEFAULT NULL, -- 创建时间
+  `last_upd_time` timestamp NULL DEFAULT NULL, -- 最近更新时间
+  `serv_type_img` varchar(128) NULL DEFAULT NULL, -- 服务项目对应的小图标，出厂预置，也可以上传
+  `cost_time` int(10) NOT NULL, -- 服务项目的耗时，单位分钟
+  `current_cnt` int(10) NOT NULL,  -- 服务项目的并发数
+  `remark` varchar(512) DEFAULT NULL -- 备注
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `t_zot_serv_type`
+  ADD PRIMARY KEY (`serv_type_code`);
+  
+DROP TABLE t_zot_offer; -- 商品定义表
+CREATE TABLE IF NOT EXISTS `t_zot_offer` (
+  `offer_code` varchar(10) NOT NULL, -- 服务项目编码
+  `offer_name` varchar(20) NOT NULL, -- 服务项目名称 
+  `serv_catalog` varchar(10) NOT NULL, -- 服务类别：1-服务类；2-配件类；3-其他，直接使用业务字典，不再使用表定义，出厂预置。
+  `serv_type_code` varchar(10) NOT NULL, -- 服务项目编码
+  `create_time` timestamp NULL DEFAULT NULL, -- 创建时间
+  `last_upd_time` timestamp NULL DEFAULT NULL, -- 最近更新时间
+  `price` FLOAT(10,2) NOT NULL, -- 商品价格
+  `min_price` FLOAT(10,2) NOT NULL, -- 商品最低价格
+  `commission_mode` int(10) NOT NULL,  -- 提成模式：1-固定金额；2-按百分比
+  `commission_amount` FLOAT(10,2) NULL DEFAULT NULL, -- 提成金额，在提成模式为1时有效
+  `commission_percent` int(10) NULL DEFAULT NULL, -- 提成百分比，在提升模式为2时有效
+  `prod_code` varchar(10) NULL DEFAULT NULL, -- 在serv_catalog为配件类时，关联库存系统的产品定义
+  `remark` varchar(512) DEFAULT NULL -- 备注
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `t_zot_offer`
+  ADD PRIMARY KEY (`offer_code`);
+  
+ALTER TABLE `t_zot_offer` 
+  ADD INDEX offer_serv_catalog ( `serv_catalog`);
+  
+ALTER TABLE `t_zot_offer` 
+  ADD INDEX offer_serv_type_code ( `serv_type_code`);
+  
+ALTER TABLE `t_zot_offer` 
+  ADD INDEX offer_create_time ( `create_time`);
 
