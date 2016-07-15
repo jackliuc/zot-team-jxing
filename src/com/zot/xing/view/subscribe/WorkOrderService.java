@@ -12,6 +12,9 @@ import com.zot.util.DateAS;
 import com.zot.util.IdGen;
 import com.zot.util.StringUtils;
 import com.zot.wechat.msg.Constant;
+import com.zot.xing.dao.common.CommonAS;
+import com.zot.xing.dao.common.CommonASImpl;
+import com.zot.xing.dao.common.IdAmount;
 import com.zot.xing.dao.subscribe.CarAS;
 import com.zot.xing.dao.subscribe.CarASImpl;
 import com.zot.xing.dao.subscribe.CarBO;
@@ -31,6 +34,8 @@ import com.zot.xing.view.service.AmountVO;
 import com.zot.xing.view.service.DailyAmountCntVO;
 import com.zot.xing.view.service.DailyServiceCntVO;
 import com.zot.xing.view.service.DailyWorkOrderCntVO;
+import com.zot.xing.view.service.MonthlyAmountCntVO;
+import com.zot.xing.view.service.NameAmountVO;
 import com.zot.xing.view.service.ServiceVO;
 import com.zot.xing.view.service.WorkOrderVO;
 
@@ -521,6 +526,53 @@ public class WorkOrderService {
 		}
 		
 		return dailyWorkOrderCnt;
+	}
+	
+	public static MonthlyAmountCntVO queryMonthlyAmount(Date qryDate)
+	{
+		String qryD = DateAS.convertDate2Str(qryDate, "yyyy-MM");
+		
+		//构造查询条件，进行数据查询
+		String beginDate = qryD + "-01 00:00:00";
+		CommonAS commAS = new CommonASImpl();
+		
+		//查询收入汇总金额
+		String sql = "select 'inamount', sum(amount) from t_zot_work_order "
+				+ " where create_time >= '" + beginDate + "'";
+		List<IdAmount> idAmounts = commAS.qryIdAmounts(sql);
+		float inamount = 0;
+		if (idAmounts != null && idAmounts.size() > 0)
+		{
+			Float amt = idAmounts.get(0).getAmount();
+			if (amt != null)
+			{
+				inamount = amt.floatValue();
+			}
+		}
+		
+		//查询支出汇总金额
+		sql = "select 'outamount', sum(cost_amount) from t_zot_cost" 
+			   + " where cost_type = 0 and create_time >= '" + beginDate + "'";
+		idAmounts = commAS.qryIdAmounts(sql);
+		float outamount = 0;
+		if (idAmounts != null && idAmounts.size() > 0)
+		{
+			Float amt = idAmounts.get(0).getAmount();
+			if (amt != null)
+			{
+				outamount = amt.floatValue();
+			}
+		}
+		
+		MonthlyAmountCntVO monthlyAmountCntVO = new MonthlyAmountCntVO();
+		monthlyAmountCntVO.setTitle(qryD + " 月收支统计");
+		List<NameAmountVO> nAmounts = new ArrayList<NameAmountVO>();
+		nAmounts.add(new NameAmountVO("收入", inamount));
+		nAmounts.add(new NameAmountVO("支出", outamount));
+		nAmounts.add(new NameAmountVO("利润", (inamount - outamount)));
+		monthlyAmountCntVO.setNameAmounts(nAmounts);
+		
+		return monthlyAmountCntVO;
 	}
 	
 	private static void setDailyWorkOrderCnt(DailyWorkOrderCntVO dailyWorkOrderCnt, 

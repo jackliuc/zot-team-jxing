@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `t_zot_work_order` (
   `carno` varchar(20) DEFAULT NULL,
   `phoneno` varchar(20) DEFAULT NULL,
   `paytype` char(1) DEFAULT NULL,
-  `amount` float(10) DEFAULT NULL,
+  `amount` FLOAT(10,2) DEFAULT NULL,
   `service_object_id` varchar(128) DEFAULT NULL,
   `eval_desc_type` int(11) DEFAULT NULL,
   `eval_desc` text,
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `t_zot_work_order_detail` (
   `over_time` timestamp NULL DEFAULT NULL, 
   `order_pro_desc` text,
   `employ_id` varchar(26) DEFAULT NULL,
-  `amount` float(10) DEFAULT NULL,
+  `amount` FLOAT(10,2) DEFAULT NULL,
   `remark` varchar(512) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

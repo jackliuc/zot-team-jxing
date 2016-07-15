@@ -122,13 +122,13 @@
 		        <input name="serviceType" type="radio" value="10009">装饰
 		      </label>
 		      <label class="am-radio inline">
-		        <input name="serviceType" type="radio" value="10010">其他
-		      </label>
-		      <label class="am-radio inline">
 		        <input name="serviceType" type="radio" value="18001">充值
 		      </label>
 		      <label class="am-radio inline">
 		        <input name="serviceType" type="radio" value="19001">保险
+		      </label>
+		      <label class="am-radio inline">
+		        <input name="serviceType" type="radio" value="20001">其他
 		      </label>
 		  </div>
         </div>

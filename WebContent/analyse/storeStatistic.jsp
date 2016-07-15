@@ -31,8 +31,8 @@
 
 
 <div class="am-g">
-  <div class="am-u-md-6">
-	<!-- 每日支出统计 -->
+   <!-- 每日支出统计 -->
+   <div class="am-u-md-6">
 	<div class="am-panel am-panel-default">
       <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-costsubtype'}">
       	<span id="dailyCostSubTypeTitle">每日支出统计</span><span class="am-icon-chevron-down am-fr" ></span>
@@ -42,12 +42,13 @@
 	</div>
   </div>
 
-<!-- 每月收支统计 -->
+  <!-- 每月收支统计 -->
   <div class="am-u-md-6">
 	<div class="am-panel am-panel-default">
-      <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-4'}">每月收支统计<span class="am-icon-chevron-down am-fr" ></span></div>
-      <div id="collapse-panel-4" class="am-in">
-        
+      <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-monthlyamount'}">
+      	<span id="monthlyamountTitle">每月收支统计</span><span class="am-icon-chevron-down am-fr" ></span>
+      </div>
+      <div id="collapse-panel-monthlyamount" class="am-in">  
       </div>
 	</div>
   </div>
@@ -87,6 +88,20 @@
 			$("#dailyCostSubTypeTitle").text(dailyCostSubTypeCnt.title);
 			var dailyCostSubTypeTblsHtml = getDailyCostSubTypeTbls(dailyCostSubTypeCnt.costSubTypeCnts);
 			$("#collapse-panel-costsubtype").html(dailyCostSubTypeTblsHtml);
+		});
+		
+		//动态输出每月收支统计信息
+		debugger;
+		dataD = new Object();
+	 	dataD.serviceAction = "qryMonthlyAmtAction";
+		$.zot.post(dataD, function(monthlyAmount){
+			if (!monthlyAmount){
+	 			return;
+	 		}
+
+			$("#monthlyamountTitle").text(monthlyAmount.title);
+			var monthlyAmtTblsHtml = getMonthlyAmtTbls(monthlyAmount.nameAmounts);
+			$("#collapse-panel-monthlyamount").html(monthlyAmtTblsHtml);
 		});
 	});
 	
@@ -136,6 +151,23 @@
 			arry.push(dailyCostSubTypeCnt.costSubTypeName);
 			arry.push("</td><td>");
 			arry.push(dailyCostSubTypeCnt.amount);
+			arry.push("</td></tr>");
+		});
+		arry.push("</tbody></table>");
+		
+		return arry.join("");
+	}
+	
+	function getMonthlyAmtTbls(monthlyNameAmounts)
+	{
+		var arry = [];
+		arry.push("<table class=\"am-table am-table-bd am-table-bdrs am-table-striped am-table-hover\">");
+		arry.push("<tbody><tr><th>汇总类型</th><th>金额</th></tr>");
+		$.each(monthlyNameAmounts,function(index,nameAmt) {   
+			arry.push("<tr><td>");
+			arry.push(nameAmt.name);
+			arry.push("</td><td>");
+			arry.push(nameAmt.amount);
 			arry.push("</td></tr>");
 		});
 		arry.push("</tbody></table>");
