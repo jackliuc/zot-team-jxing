@@ -538,7 +538,7 @@ public class WorkOrderService {
 		
 		//查询收入汇总金额
 		String sql = "select 'inamount', sum(amount) from t_zot_work_order "
-				+ " where create_time >= '" + beginDate + "'";
+				+ " where (paytype is not null and paytype != 'M') and create_time >= '" + beginDate + "'";
 		List<IdAmount> idAmounts = commAS.qryIdAmounts(sql);
 		float inamount = 0;
 		if (idAmounts != null && idAmounts.size() > 0)
