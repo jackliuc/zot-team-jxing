@@ -178,4 +178,25 @@ public class Constant {
 			put(COST_SUBTYPE_99, "其他");
 		}
 	};
+	
+	public static final int CMIS_AMOUNT_MODE = 1;//按固定金额提成
+	public static final int CMIS_PERCENT_MODE = 2;//按百分比提成
+	public static final Map<String, String> CMIS_MODE_MAP = new HashMap<String, String>(){
+		private static final long serialVersionUID = 1L;
+		{
+			put(String.valueOf(CMIS_AMOUNT_MODE), "固定金额");
+			put(String.valueOf(CMIS_PERCENT_MODE), "百分比");
+		}
+	};
+	
+	public static final String SERV_CATA_SERVICE = "1";//服务类
+	public static final String SERV_CATA_PROD = "2";//配件类
+	public static final Map<String, String> SERV_CATA_MAP = new HashMap<String, String>(){
+		private static final long serialVersionUID = 1L;
+		{
+			put(SERV_CATA_SERVICE, "服务类");
+			put(SERV_CATA_PROD, "配件类");
+		}
+	};
+	
 }

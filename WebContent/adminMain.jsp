@@ -47,6 +47,14 @@ $(document).ready(function(){
 	  	$("#optContent").load("shop/costmgr.jsp");
 	   });
   
+  //系统设置
+  $("#offermgr").click(function(){
+	  	$("#optContent").load("system/offermgr.jsp");
+	   });
+  $("#custmgr").click(function(){
+	  	$("#optContent").load("system/custmgr.jsp");
+	   });
+  
   
   });
 
@@ -85,12 +93,19 @@ $(document).ready(function(){
             <li><a href="#" id="customerinfo"><span class="am-icon-th"></span> 查询  </a></li>
           </ul>
         </li>
-          <li class="admin-parent">
+        <li class="admin-parent">
           <a class="am-cf" data-am-collapse="{target: '#collapse-nav2'}"><span class="am-icon-file"></span> 门店专区 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
           <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav2">
             <li><a href="#" id="costdetail" class="am-cf"><span class="am-icon-check"></span> 消费 </a></li>
-            <li><a href="#" id="employ"><span class="am-icon-puzzle-piece"></span> 员工 </a></li>
-         </ul>
+            <!--<li><a href="#" id="employ"><span class="am-icon-puzzle-piece"></span> 员工 </a></li>-->
+          </ul>
+        </li>
+        <li class="admin-parent">
+          <a class="am-cf" data-am-collapse="{target: '#collapse-nav3'}"><span class="am-icon-file"></span> 系统设置 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+          <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav3">
+            <li><a href="#" id="offermgr" class="am-cf"><span class="am-icon-check"></span> 商品管理 </a></li>
+            <li><a href="#" id="custmgr"><span class="am-icon-puzzle-piece"></span> 客户管理 </a></li>
+          </ul>
         </li>
         <li><a href="#"><span class="am-icon-pencil-square-o"></span> 系统日志</a></li>
         <!-- li><a href="#"><span class="am-icon-sign-out"></span> 注销</a></li> -->
