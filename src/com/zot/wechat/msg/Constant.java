@@ -47,10 +47,13 @@ public class Constant {
 	public static final String WECHAT_MSG_NEW_TYPE = "news";
 	
 	/**
+	 * 通配项值
+	 */
+	public static final String ALL = "-1";
+	
+	/**
 	 * 订单状态
 	 */
-	public static final String ORDER_ALL = "-1";
-	
 	public static final String ORDER_CREATE = "0";
 	
 	public static final String ORDER_WAITING = "1";
