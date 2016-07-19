@@ -41,7 +41,7 @@
       <div class="am-u-sm-12 am-u-md-6">
           <div class="am-btn-toolbar">
             <div class="am-btn-group am-btn-group-sm">
-              <button id="add_cost_btn" type="button" class="am-btn am-btn-primary">
+              <button id="add_offer_btn" type="button" class="am-btn am-btn-primary">
               	<span class="am-icon-plus"></span>新增
               </button>
             </div>
@@ -280,7 +280,7 @@
 		$("#edit_offer_div").css("display","none");
 	});
 	
-	$("#add_cost_btn").click(function(){
+	$("#add_offer_btn").click(function(){
 		$("#edit_offer_div").css("display","block");
 	});
 	

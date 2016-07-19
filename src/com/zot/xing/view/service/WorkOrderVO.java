@@ -27,6 +27,7 @@ public class WorkOrderVO {
 	private int canCancel = 0;//订单是否可取消：1-可取消；0-不能取消
 	
 	private String payType;//付款方式
+	private String payTypeName;//支付方式名
 	private String amount; //付款金额
 	public String getWorkOrderId() {
 		return workOrderId;
@@ -153,5 +154,11 @@ public class WorkOrderVO {
 	}
 	public void setDisFinishedTime(String disFinishedTime) {
 		this.disFinishedTime = disFinishedTime;
+	}
+	public String getPayTypeName() {
+		return payTypeName;
+	}
+	public void setPayTypeName(String payTypeName) {
+		this.payTypeName = payTypeName;
 	}
 }

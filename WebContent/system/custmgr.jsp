@@ -11,28 +11,20 @@
 
     <div class="am-g am-form">
       <div class="am-u-sm-4">
-          <div class="am-u-sm-4">消费类别</div>
+          <div class="am-u-sm-4">手机号</div>
           <div class="am-u-sm-8">
-            <select id="qry_cost_type">
-              	<option value="-1" selected>所有</option>
-            	<option value="0">支出</option>
-            	<option value="1">收入</option>
-            </select>
+            <input id="qry_phoneno" type="text" class="am-form-field">
           </div>
       </div>
       <div class="am-u-sm-4">
-          <div class="am-u-sm-4">经办人</div>
+          <div class="am-u-sm-4">车牌号</div>
           <div class="am-u-sm-8">
-            <select id="qry_operator">
-              	<option value="-1" selected>所有</option>
-              	<option value="600000002">陈雪桃</option>
-	            <option value="600000001">李金龙</option>
-            </select>
+            <input id="qry_carno" type="text" value="苏A" class="am-form-field">
           </div>
       </div>
       <div class="am-u-sm-4">
          <span class="am-input-group-btn">
-          	<button id="qryCostBtn" class="am-btn am-btn-primary am-btn-block" type="button">查询</button>
+          	<button id="qryCustBtn" class="am-btn am-btn-primary am-btn-block" type="button">查询</button>
          </span>
       </div>
     </div>
@@ -43,7 +35,7 @@
       <div class="am-u-sm-12 am-u-md-6">
           <div class="am-btn-toolbar">
             <div class="am-btn-group am-btn-group-sm">
-              <button id="add_cost_btn" type="button" class="am-btn am-btn-primary">
+              <button id="add_cust_btn" type="button" class="am-btn am-btn-primary">
               	<span class="am-icon-plus"></span>新增
               </button>
             </div>
@@ -55,13 +47,14 @@
             
             <thead>
             <tr>
-              <th class="table-date">创建时间</th>
-              <th class="table-date">消费时间</th>
-              <th class="table-title">消费类别</th>
-              <th class="table-title">消费细类</th>
-              <th class="table-title">消费金额</th>
-              <th class="table-title">消费后余额</th>
-              <th class="table-title">经办人</th>
+              <th class="table-date">姓名</th>
+              <th class="table-title">性别</th>
+              <th class="table-date">手机号</th>
+              <th class="table-title">车牌号</th>
+              <th class="table-title">会员等级</th>
+              <th class="table-title">服务折扣</th>
+              <th class="table-title">产品折扣</th>
+              <th class="table-title">操作</th>
             </tr>
             </thead>
             
@@ -74,67 +67,95 @@
     </div>
     
     <!-- 新增，编辑区域 -->
-    <div class="am-g" id="edit_cost_div" style="display:none">
+    <div class="am-g" id="edit_cust_div" style="display:none">
     	<div class="am-g am-form">
 	      <div class="am-u-sm-6">
-	          <div class="am-u-sm-4">消费类别</div>
+	          <div class="am-u-sm-4">姓名</div>
 	          <div class="am-u-sm-8">
-	            <select id="edit_cost_type">
-	              	<option value="0" selected>支出</option>
-	              	<option value="1">收入</option>
-	            </select>
+	            <input type="text" id="edit_cust_name" class="am-input-sm">
 	          </div>
 	      </div>
 	      <div class="am-u-sm-6">
-	          <div class="am-u-sm-4">消费细类</div>
+	          <div class="am-u-sm-4">性别</div>
 	          <div class="am-u-sm-8">
-	            <select id="edit_cost_subtype">
-	              	<option value="1" selected>日常餐饮</option>
-	              	<option value="2">服务项目</option>
-	              	<option value="3">办公用品</option>
-	              	<option value="4">设备</option>
-	              	<option value="5">员工福利</option>
-	              	<option value="6">运费</option>
-	              	<option value="7">水电费</option>
-	              	<option value="99">其他</option>
-	            </select>
+	            <label class="am-radio-inline">
+	            	<input name="edit_cust_sex" type="radio" checked="checked" value="1">男 
+	            </label>
+	            <label class="am-radio-inline">
+	            	<input name="edit_cust_sex" type="radio" value="2">女
+	            </label>
 	          </div>
 	      </div>
 	    </div>
 	    <p/>
-	    <div class="am-g am-form">
+	    
+    	<div class="am-g am-form">
 	      <div class="am-u-sm-6">
-	          <div class="am-u-sm-4">消费时间</div>
+	          <div class="am-u-sm-4">手机号</div>
 	          <div class="am-u-sm-8">
-	            <div class="am-form-group am-form-icon">
-                  <i class="am-icon-calendar"></i>
-                  <input id="edit_cost_time" type="date" class="am-form-field am-input-sm" placeholder="消费日期">
-                </div>
+	            <input type="text" id="edit_cust_phoneno" class="am-input-sm">
 	          </div>
 	      </div>
 	      <div class="am-u-sm-6">
-	          <div class="am-u-sm-4">消费金额</div>
+	          <div class="am-u-sm-4">车牌号</div>
 	          <div class="am-u-sm-8">
-	            <input type="text" id="edit_cost_amount" class="am-input-sm">
+	            <input type="text" id="edit_cust_carno" class="am-input-sm">
 	          </div>
 	      </div>
 	    </div>
+	    <p/>
 	    
 	    <div class="am-g am-form">
 	      <div class="am-u-sm-6">
-	          <div class="am-u-sm-4">经办人</div>
+	          <div class="am-u-sm-4">车品牌</div>
 	          <div class="am-u-sm-8">
-	            <select id="edit_cost_operator">
-	            	<option value="600000002" selected>陈雪桃</option>
-	              	<option value="600000001">李金龙</option>
+	            <select id="edit_cust_car_brand">
+	            	<option value="500000001" selected>大众</option>
+	              	<option value="500000002">福特</option>
+	              	<option value="500000003">奔驰</option>
+	              	<option value="500000004">宝马</option>
+	              	<option value="500000005">奥迪</option>
 	            </select>
 	          </div>
 	      </div>
 	      <div class="am-u-sm-6">
-	          <div class="am-u-sm-4">备注</div>
+	          <div class="am-u-sm-4">地址</div>
 	          <div class="am-u-sm-8">
-	            <input type="text" id="edit_cost_remark" class="am-input-sm">
+	            <input type="text" id="edit_cust_address" class="am-input-sm">
 	          </div>
+	      </div>
+	    </div>
+	    <p/>
+	    
+	    <div class="am-g am-form">
+	      <div class="am-u-sm-6">
+	          <div class="am-u-sm-4">会员等级</div>
+	          <div class="am-u-sm-8">
+	            <select id="edit_cust_class">
+	            	<option value="-1" selected>无</option>
+	            	<option value="9001">普卡会员</option>
+	              	<option value="9002">金卡会员</option>
+	              	<option value="9002">钻石会员</option>
+	            </select>
+	          </div>
+	      </div>
+	      <div class="am-u-sm-6">
+	          <div class="am-u-sm-4">充值金额</div>
+	          <div class="am-u-sm-8">
+	            <input type="text" id="edit_cust_recharge_amt" class="am-input-sm">
+	          </div>
+	      </div>
+	    </div>
+	    <p/>
+	    
+	    <div class="am-g am-form">
+	      <div class="am-u-sm-6">
+	          <div class="am-u-sm-4">特殊说明</div>
+	          <div class="am-u-sm-8">
+	            <input type="text" id="edit_cust_remark" class="am-input-sm">
+	          </div>
+	      </div>
+	      <div class="am-u-sm-6">
 	      </div>
 	    </div>
 	    
@@ -160,21 +181,6 @@
 
 <script>
 	$(document).ready(function(){
-		var serviceD = new Object();
-	 	serviceD.serviceAction = "qryEmploysAction";
-		$.zot.post(serviceD,function(employs){
-			if (employs && employs.length > 0){
-				var qryOprObj = $('#qry_operator');
-				qryOprObj[0].options.length = 0;
-				qryOprObj.append("<option value='-1' selected>所有</option>");
-				var editOprObj = $('#edit_cost_operator');
-				editOprObj[0].options.length = 0;
-				for(var p in employs){
-					qryOprObj[0].options.add(new Option(employs[p].employName, employs[p].employId));
-					editOprObj[0].options.add(new Option(employs[p].employName, employs[p].employId));
-				}
-			}
-		});
 	});
 	
 	$("#edit_save").click(function(){
@@ -214,14 +220,14 @@
 	 		{
 	 			//重新查询
 	 			alertMsg("保存成功");
-	 			$("#edit_cost_div").css("display","none");
+	 			$("#edit_cust_div").css("display","none");
 	 			$("#qryCostBtn").click();
 	 		}
 	 	});
 	});
 	
 	$("#qryCostBtn").click(function(){
-		$("#edit_cost_div").css("display","none");
+		$("#edit_cust_div").css("display","none");
 		
 		var serviceD = new Object();
 	 	serviceD.serviceAction = "qryCostAction";
@@ -270,11 +276,11 @@
 	});
 	
 	$("#edit_cancel").click(function(){
-		$("#edit_cost_div").css("display","none");
+		$("#edit_cust_div").css("display","none");
 	});
 	
-	$("#add_cost_btn").click(function(){
-		$("#edit_cost_div").css("display","block");
+	$("#add_cust_btn").click(function(){
+		$("#edit_cust_div").css("display","block");
 	});
 	
 	function getTBodyHtml(costs)

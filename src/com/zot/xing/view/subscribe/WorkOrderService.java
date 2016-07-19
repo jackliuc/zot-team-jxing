@@ -222,7 +222,7 @@ public class WorkOrderService {
 		
 		//查询预约状态订单
 		WorkOrderAS workOrderAS = new WorkOrderASImpl();
-		if (Constant.ORDER_ALL.equals(status)
+		if (Constant.ALL.equals(status)
 			|| Constant.ORDER_WAITING.equals(status))
 		{
 			List<WorkOrderBO> waitingOrders = workOrderAS.queryOrdersByStatus(Constant.ORDER_WAITING);
@@ -233,7 +233,7 @@ public class WorkOrderService {
 		}
 		
 		//查询已取消状态订单
-		if (Constant.ORDER_ALL.equals(status)
+		if (Constant.ALL.equals(status)
 			|| Constant.ORDER_CANCEL.equals(status))
 		{
 			List<WorkOrderBO> cancelOrders = workOrderAS.queryOrdersByStatus(Constant.ORDER_CANCEL);
@@ -274,7 +274,7 @@ public class WorkOrderService {
 			}
 			
 			if (status.equals(order.getStatus())
-				|| Constant.ORDER_ALL.equals(status))
+				|| Constant.ALL.equals(status))
 			{
 				filterOrders.add(order);
 			}
@@ -567,7 +567,7 @@ public class WorkOrderService {
 		MonthlyAmountCntVO monthlyAmountCntVO = new MonthlyAmountCntVO();
 		monthlyAmountCntVO.setTitle(qryD + " 月收支统计");
 		List<NameAmountVO> nAmounts = new ArrayList<NameAmountVO>();
-		nAmounts.add(new NameAmountVO("收入", inamount));
+		nAmounts.add(new NameAmountVO("收入（不含卡扣）", inamount));
 		nAmounts.add(new NameAmountVO("支出", outamount));
 		nAmounts.add(new NameAmountVO("利润", (inamount - outamount)));
 		monthlyAmountCntVO.setNameAmounts(nAmounts);
@@ -602,19 +602,28 @@ public class WorkOrderService {
 		//设置收入的统计值
 		List<AmountVO> amounts = dailyWorkOrderCnt.getDailyAmountCnt().getAmounts();
 		float allAmount = 0;
+		float netAllAmout = 0;
 		for (AmountVO amount : amounts)
 		{
+			if (amount.getPayType() == null)
+			{
+				continue;
+			}
 			AmountVO amountCnt = payTypeMap.get(amount.getPayType());
 			if (amountCnt != null)
 			{
 				amount.setAmount(amountCnt.getAmount());
 			}
-			
 			allAmount+=amount.getAmount().floatValue();
+			if (!Constant.PAY_MEM_CARD.equals(amount.getPayType()))
+			{
+				netAllAmout+=amount.getAmount().floatValue();
+			}
 		}
 		
 		//新增收入汇总值
 		amounts.add(new AmountVO("汇总", Float.valueOf(allAmount)));
+		amounts.add(new AmountVO("汇总（不含卡扣）", Float.valueOf(netAllAmout)));
 	}
 	
 	/**
@@ -748,6 +757,11 @@ public class WorkOrderService {
 		
 		String amount = orderBO.getAmount() == null ? "0" : String.valueOf(orderBO.getAmount());
 		orderVO.setAmount(amount);
+		if (!StringUtils.isEmpty(orderBO.getPayType()))
+		{
+			orderVO.setPayType(orderBO.getPayType());
+			orderVO.setPayTypeName(Constant.PAY_TYPE_MAP.get(orderBO.getPayType()));
+		}
 		
 		//对于增强型订单对象，直接转化
 		if (orderBO instanceof EnableWorkOrderBO)

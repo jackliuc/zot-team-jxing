@@ -56,6 +56,8 @@
               <th class="table-title">手机号</th>
               <th class="table-title">车牌号</th>
               <th class="table-title">服务项目</th>
+              <th class="table-title">支付方式</th>
+              <th class="table-title">实收金额</th>
               <th class="table-set">操作</th>
             </tr>
             </thead>
@@ -153,6 +155,10 @@
 		arry.push(order.carNo);
 		arry.push("</td><td class=\"am-hide-sm-only\">");
 		arry.push(order.serviceName);
+		arry.push("</td><td>");
+		arry.push(order.payTypeName);
+		arry.push("</td><td>");
+		arry.push(order.amount);
 		arry.push("</td><td>");
 		if (order.status == 1)
 		{

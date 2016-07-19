@@ -5,6 +5,7 @@ public class CustomerInfoVO {
 	private String wechatno;
 	private String phoneno;
 	private String carno;
+	private String carBrand;
 	private String custname;
 	private String sex;
 	private String address;
@@ -12,6 +13,8 @@ public class CustomerInfoVO {
 	private String orderId;
 	private String serviceType;
 	private String serviceName;
+	private String classcode;
+	private Float rechargeAmt;
 	
 	public String getWechatno() {
 		return wechatno;
@@ -79,5 +82,22 @@ public class CustomerInfoVO {
 	public void setServiceName(String serviceName) {
 		this.serviceName = serviceName;
 	}
-	
+	public String getCarBrand() {
+		return carBrand;
+	}
+	public void setCarBrand(String carBrand) {
+		this.carBrand = carBrand;
+	}
+	public String getClasscode() {
+		return classcode;
+	}
+	public void setClasscode(String classcode) {
+		this.classcode = classcode;
+	}
+	public Float getRechargeAmt() {
+		return rechargeAmt;
+	}
+	public void setRechargeAmt(Float rechargeAmt) {
+		this.rechargeAmt = rechargeAmt;
+	}
 }

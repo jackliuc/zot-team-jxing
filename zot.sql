@@ -1,31 +1,45 @@
 --
 -- Database: `zot`
 --
+DROP TABLE t_zot_card_class; -- 会员/会员卡等级表
+CREATE TABLE IF NOT EXISTS `t_zot_card_class` (
+  `class_code` varchar(10) NOT NULL, -- 会员等级编码
+  `class_name` varchar(20) NOT NULL, -- 会员等级名称
+  `create_time` timestamp NULL DEFAULT NULL, -- 创建时间
+  `last_upd_time` timestamp NULL DEFAULT NULL, -- 最近更新时间
+  `serv_disratio` int(10) NOT NULL, -- 服务类项目折扣，百分比，只能是整数
+  `prod_disratio` int(10) NOT NULL, -- 配件类项目折扣，百分比，只能是整数
+  `min_amount` FLOAT(10,2) NOT NULL,  -- 此等级会员的最低充值金额
+  `remark` varchar(512) DEFAULT NULL -- 备注
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ALTER TABLE `t_zot_card_class`
+  ADD PRIMARY KEY (`class_code`);
+
 DROP TABLE t_zot_card;
 CREATE TABLE IF NOT EXISTS `t_zot_card` (
-  `cust_id` varchar(26) NOT NULL,
-  `card_no` varchar(26) NOT NULL,
-  `create_time` timestamp NULL DEFAULT NULL,
-  `card_type` char(1) NOT NULL,
-  `balance` int(10) NOT NULL,
+  `card_no` varchar(128) NOT NULL,
+  `cust_id` varchar(128) NOT NULL,
+  `create_time` timestamp NOT NULL,
+  `class_code` varchar(10) NOT NULL, -- 会员等级，也即会员卡等级，关联
+  `balance` FLOAT(10,2) NOT NULL,
   `remark` varchar(512) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 ALTER TABLE `t_zot_card`
   ADD PRIMARY KEY (`card_no`);
 
 DROP TABLE t_zot_card_log;
 CREATE TABLE IF NOT EXISTS `t_zot_card_log` (
-  `id` varchar(26) NOT NULL,
+  `id` varchar(64) NOT NULL,
+  `cust_id` varchar(128) NOT NULL,
   `card_no` varchar(26) NOT NULL,
   `oper_id` varchar(26) NOT NULL,
-  `use_date` timestamp NOT NULL,
-  `use_balance` int(10) NOT NULL,
-  `before_balance` int(10) NOT NULL,
-  `after_balance` int(10) NOT NULL,
+  `log_type` char(1) NOT NULL, -- 日志类型，R-充值；C-消费
+  `create_time` timestamp NOT NULL,
+  `amount` FLOAT(10,2) NOT NULL,
+  `before_balance` FLOAT(10,2) NOT NULL,
+  `after_balance` FLOAT(10,2) NOT NULL,
   `remark` varchar(512) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 ALTER TABLE `t_zot_card_log`
   ADD PRIMARY KEY (`id`);
 
@@ -232,22 +246,6 @@ CREATE TABLE IF NOT EXISTS `T_ZOT_COST`
 
 ALTER TABLE `T_ZOT_COST` 
   ADD INDEX cost_index_costtime ( `CREATE_TIME`);
-  
-
-DROP TABLE t_zot_mem_class; -- 会员等级表
-CREATE TABLE IF NOT EXISTS `t_zot_mem_class` (
-  `class_code` varchar(10) NOT NULL, -- 会员等级编码
-  `class_name` varchar(20) NOT NULL, -- 会员等级名称
-  `create_time` timestamp NULL DEFAULT NULL, -- 创建时间
-  `last_upd_time` timestamp NULL DEFAULT NULL, -- 最近更新时间
-  `serv_disratio` int(10) NOT NULL, -- 服务类项目折扣，百分比，只能是整数
-  `prod_disratio` int(10) NOT NULL, -- 配件类项目折扣，百分比，只能是整数
-  `min_amount` FLOAT(10,2) NOT NULL,  -- 此等级会员的最低充值金额
-  `remark` varchar(512) DEFAULT NULL -- 备注
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-ALTER TABLE `t_zot_mem_class`
-  ADD PRIMARY KEY (`class_code`);
   
 
 DROP TABLE t_zot_serv_type; -- 服务项目定义表，可从t_zot_service表升级而来

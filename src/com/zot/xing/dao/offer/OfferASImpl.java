@@ -22,7 +22,6 @@ public class OfferASImpl implements OfferAS {
 	@Override
 	public void addOffer(OfferBO offer) 
 	{
-		//订单主表
 		JDBCTemplate<Object> sqlTemplate = new JDBCTemplate<Object>();
 		List<Object> params = new ArrayList<Object>();
 		params.add(offer.getOfferCode());
