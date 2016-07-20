@@ -48,6 +48,7 @@ public class CheckInService {
 			car = new CarBO();
 			car.setCarno(customerInfo.getCarno());
 			car.setCustId(customer.getCustId());
+			car.setCreateTime(new Date());
 			caras.addCar(car);
 		}
 		

@@ -178,7 +178,7 @@ DROP TABLE t_zot_customer;
 CREATE TABLE IF NOT EXISTS `t_zot_customer` (
   `cust_id` varchar(128) NOT NULL,
   `cust_name` varchar(128) DEFAULT NULL,
-  `wechatno` varchar(30) NOT NULL,
+  `wechatno` varchar(30) DEFAULT NULL,
   `wechatname` varchar(128) DEFAULT NULL,
   `phoneno` varchar(20) DEFAULT NULL,
   `sex` char(1) DEFAULT NULL,
