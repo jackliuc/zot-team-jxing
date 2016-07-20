@@ -123,6 +123,7 @@ public class CustomerService {
 		customer.setAddress(custVO.getAddress());
 		customer.setCustName(custVO.getCustname());
 		customer.setRemark(custVO.getRemark());
+		customer.setWechatno(" ");//字段不能为空，故设置为空格
 		
 		return customer;
 	}

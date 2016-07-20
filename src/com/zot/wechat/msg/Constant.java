@@ -202,4 +202,6 @@ public class Constant {
 		}
 	};
 	
+	public static final String RECHARGE_LOG = "R";
+	public static final String CONSUME_LOG = "C";
 }

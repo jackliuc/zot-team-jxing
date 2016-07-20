@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.zot.db.JDBCTemplate;
 import com.zot.util.DateAS;
-import com.zot.util.IdGen;
 
 public class CardLogASImpl implements CardLogAS {
 
@@ -18,10 +17,10 @@ public class CardLogASImpl implements CardLogAS {
 		JDBCTemplate<Object> sqlTemplate = new JDBCTemplate<Object>();
 		
 		List<Object> params = new ArrayList<Object>();
-		params.add(IdGen.genCardLogId());
+		params.add(cardLog.getId());
 		params.add(cardLog.getCardNo());
 		params.add(cardLog.getCustId());
-		params.add(DateAS.getCurrentSQLTimestamp());
+		params.add(DateAS.getSQLTimestamp(cardLog.getCreateTime()));
 		params.add(cardLog.getOperId());
 		params.add(cardLog.getLogType());
 		params.add(cardLog.getAmount());

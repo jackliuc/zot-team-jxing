@@ -185,30 +185,51 @@
 	
 	$("#edit_save").click(function(){
 		
-		var cost_time = $("#edit_cost_time").val();
-	 	if (!cost_time)
+		var custName = $("#edit_cust_name").val();
+	 	if (!custName)
 	 	{
-	 		alertMsg("请输入消费时间");
+	 		alertMsg("请输入姓名");
 	 		return;
 	 	}
 		
-	 	var cost_amount = $("#edit_cost_amount").val();
-	 	if (!cost_amount)
+	 	var phoneno = $("#edit_cust_phoneno").val();
+	 	if (!phoneno || phoneno.length != 11)
 	 	{
-	 		alertMsg("请输入消费金额");
+	 		alertMsg("请输入正确的手机号");
+	 		return;
+	 	}
+	 	
+	 	var carno = $("#edit_cust_carno").val();
+	 	if (!carno || carno.length != 7)
+	 	{
+	 		alertMsg("请输入正确的车牌号");
+	 		return;
+	 	}
+	 	
+	 	var custClass = $("#edit_cust_class").val();
+	 	var rechargAmt = $("#edit_cust_recharge_amt").val();
+	 	if ((custClass && custClass != -1)
+	 		&& (!rechargAmt || rechargAmt <= 0))//需要校验最小充值额度
+	 	{
+	 		alertMsg("请输入充值金额");
 	 		return;
 	 	}
 		
 	 	var dataD = {};
-	 	dataD.costType = $("#edit_cost_type").val();;
-	 	dataD.costSubType = $("#edit_cost_subtype").val();;
-	 	dataD.remark = $("#edit_cost_remark").val();;
-	 	dataD.costAmount = cost_amount;
-	 	dataD.costOperator = $("#edit_cost_operator").val();;
-	 	dataD.costTime = cost_time;
-	 	
+	 	dataD.phoneno = phoneno;
+	 	dataD.carno = carno;
+	 	dataD.carBrand = $("#edit_cust_car_brand").val();;
+	 	dataD.custname = custName;
+	 	dataD.sex = $('input:radio[name="edit_cust_sex"]:checked').val();
+	 	dataD.address = $("#edit_cust_address").val();
+	 	dataD.remark = $("#edit_cust_remark").val();
+	 	dataD.classcode = $("#edit_cust_class").val();
+	 	if (dataD.classcode != -1){
+	 		dataD.rechargeAmt = $("#edit_cust_recharge_amt").val();
+	 	}
+
 	 	var serviceD = new Object();
-	 	serviceD.serviceAction = "addCostAction";
+	 	serviceD.serviceAction = "addCustomerAction";
 	 	serviceD.data = JSON.stringify(dataD);
 	 	
 	 	$.zot.post(serviceD,function(ret){
@@ -221,12 +242,12 @@
 	 			//重新查询
 	 			alertMsg("保存成功");
 	 			$("#edit_cust_div").css("display","none");
-	 			$("#qryCostBtn").click();
+	 			$("#qryCustBtn").click();
 	 		}
 	 	});
 	});
 	
-	$("#qryCostBtn").click(function(){
+	$("#qryCustBtn").click(function(){
 		$("#edit_cust_div").css("display","none");
 		
 		var serviceD = new Object();

@@ -23,7 +23,7 @@ public class CardASImpl implements CardAS
 		List<Object> params = new ArrayList<Object>();
 		params.add(card.getCardNo());
 		params.add(card.getCustId());
-		params.add(DateAS.getCurrentSQLTimestamp());
+		params.add(DateAS.getSQLTimestamp(card.getCreateTime()));
 		params.add(card.getClassCode());
 		params.add(card.getBalance());
 		params.add(card.getRemark());
