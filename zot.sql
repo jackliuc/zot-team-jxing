@@ -1,8 +1,8 @@
 --
 -- Database: `zot`
 --
-DROP TABLE t_zot_card_class; -- 会员/会员卡等级表
-CREATE TABLE IF NOT EXISTS `t_zot_card_class` (
+DROP TABLE t_zot_cust_class; -- 会员/会员卡等级表
+CREATE TABLE IF NOT EXISTS `t_zot_cust_class` (
   `class_code` varchar(10) NOT NULL, -- 会员等级编码
   `class_name` varchar(20) NOT NULL, -- 会员等级名称
   `create_time` timestamp NULL DEFAULT NULL, -- 创建时间
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `t_zot_card_class` (
   `min_amount` FLOAT(10,2) NOT NULL,  -- 此等级会员的最低充值金额
   `remark` varchar(512) DEFAULT NULL -- 备注
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-ALTER TABLE `t_zot_card_class`
+ALTER TABLE `t_zot_cust_class`
   ADD PRIMARY KEY (`class_code`);
 
 DROP TABLE t_zot_card;
